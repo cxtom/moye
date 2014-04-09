@@ -89,171 +89,13 @@ define(function (require) {
 
 
     /**
-     * 下拉选择菜单
+     * 私有函数或方法
      * 
-     * @extends module:Control
-     * @requires lib
-     * @requires Control
-     * @exports Select
-     * @example
-     *  new Select({
-     *     prefix: 'ecl-ui-sel',
-     *     main: me.qq('ecl-ui-sel'),
-     *     target: me.qq('ecl-ui-sel-holder'),
-     *     offset: {
-     *       y: -1
-     *     },
-     *     onChange: function (arg) {
-     *       window.console && console.log(arg);
-     *     }
-     *   }).render();
+     * @type {Object}
+     * @namespace
+     * @name module:Select~privates
      */
-    var Select = Control.extend(/** @lends module:Select.prototype */{
-
-        /**
-         * 控件类型标识
-         * 
-         * @type {string}
-         * @private
-         */
-        type: 'Select',
-
-        /**
-         * 控件配置项
-         * 
-         * @private
-         * @name module:Select#options
-         * @type {Object}
-         * @property {boolean} options.disabled 控件的不可用状态
-         * @property {(string | HTMLElement)} options.main 控件渲染容器
-         * @property {number} options.maxLength 显示选中值时的限度字节长度
-         * @property {string} options.ellipsis maxLength 限制后的附加的后缀字符
-         * @property {(string | HTMLElement)} options.target 计算选单显示时
-         * 相对位置的目标对象
-         * @property {number} options.cols 选项显示的列数，默认为 1 列
-         * @property {string} options.prefix 控件class前缀，同时将作为main的class之一
-         * @property {string} options.isNumber 控件值的类型是否限制为数字
-         * @property {?Array=} options.datasource 填充下拉项的数据源
-         * 推荐格式 { text: '', value: '' }, 未指定 value 时会根据 valueUseIndex 的
-         * 设置使用 text 或自动索引值，可简写成字符串 '北京, 上海, 广州' 或 
-         * '北京:010, 上海:021, 广州:020'
-         * @property {bool} options.valueUseIndex datasource 未指定 value 时是否
-         * 使用自动索引值
-         */
-        options: {
-
-            // 提示框的不可用状态，默认为false。处于不可用状态的提示框不会出现。
-            disabled: false,
-
-            // 控件渲染主容器
-            main: '',
-
-            // 显示选中值时的限度字节长度
-            maxLength: 16,
-
-            // maxLength 限制后的附加的后缀字符
-            ellipsis: '...',
-
-            // 计算选单显示时相对位置的目标对象
-            target: '',
-
-            // 显示列数
-            cols: 1,
-
-            // 选中项的 class
-            selectedClass: 'cur',
-
-            // 控件class前缀，同时将作为main的class之一
-            prefix: 'ecl-ui-sel',
-
-            // 控件值的类型是否为数字
-            isNumber: true,
-
-            // 数据源
-            datasource: null,
-
-            // datasource 项未指定 value 时
-            valueUseIndex: false
-        },
-
-        /**
-         * 需要绑定 this 的方法名，多个方法以半角逗号分开
-         * 
-         * @type {string}
-         * @private
-         */
-        binds: 'onClick,onBeforeShow,onHide,onDisable,onEnable',
-
-        /**
-         * 控件初始化
-         * 
-         * @param {Object} options 控件配置项
-         * @see module:Select#options
-         * @private
-         */
-        init: function (options) {
-
-            if (!options.target) {
-                throw new Error('invalid target');
-            }
-
-            this.disabled  = options.disabled;
-        },
-
-
-        /**
-         * 绘制控件
-         * 
-         * @return {module:Select} 当前实例
-         * @override
-         * @public
-         */
-        render: function () {
-            var options = this.options;
-
-            if (!this.rendered) {
-                this.rendered = true;
-
-                this.target = lib.g(options.target);
-                this.realTarget = lib.dom.first(this.target) || this.target;
-                this.defaultValue = this.realTarget.innerHTML
-                    || this.realTarget.value
-                    || '';
-
-                this.srcOptions.triggers = [this.target];
-
-                var popup = this.popup = new Popup(this.srcOptions);
-                this.addChild(popup);
-
-                if (options.datasource) {
-                    options.isNumber = options.valueUseIndex;
-                    this.fill(options.datasource);
-                }
-
-                popup.on('click', this.onClick);
-                popup.on('beforeShow', this.onBeforeShow);
-                popup.on('hide', this.onHide);
-
-                popup.render();
-
-                this.on('disable', this.onDisable);
-                this.on('enable', this.onEnable);
-                this.main = popup.main;
-
-                if (options.cols > 1) {
-                    lib.addClass(
-                        this.main,
-                        options.prefix + '-cols' + options.cols
-                    );
-                    //lib.addClass(this.main, 'c-clearfix');
-                }
-            }
-            else {
-                this.popup.render();
-            }
-
-            return this;
-        },
+    var privates = /** @lends module:Select~privates */ {
 
         /**
          * 处理 disable 事件
@@ -262,7 +104,7 @@ define(function (require) {
          * @private
          */
         onDisable: function () {
-            this.popup.disabled = this.disabled;
+            this.popup.disable();
             lib.addClass(this.target, this.options.prefix + '-disabled');
         },
 
@@ -274,7 +116,7 @@ define(function (require) {
          * @private
          */
         onEnable: function () {
-            this.popup.disabled = this.disabled;
+            this.popup.enable();
             lib.removeClass(this.target, this.options.prefix + '-disabled');
         },
 
@@ -288,7 +130,7 @@ define(function (require) {
         onClick: function (args) {
             var e = args.event;
 
-            if (!e || this.disabled) {
+            if (!e || this._disabled) {
                 return;
             }
 
@@ -300,7 +142,7 @@ define(function (require) {
                 case 'A':
                     lib.preventDefault(e);
 
-                    this.pick(el);
+                    privates.pick.call(this, el);
 
                     break;
 
@@ -324,7 +166,7 @@ define(function (require) {
 
             lib.preventDefault(arg.event);
 
-            if (this.disabled) {
+            if (this._disabled) {
                 return;
             }
 
@@ -345,43 +187,6 @@ define(function (require) {
          */
         onHide: function () {
             lib.removeClass(this.target, this.options.prefix + '-hl');
-        },
-
-
-        /**
-         * 显示浮层
-         * 
-         * @param {?HTMLElement=} target 触发显示浮层的节点
-         * @fires module:Select#show 显示事件
-         * @public
-         */
-        show: function (target) {
-
-            this.popup.show();
-
-            /**
-             * @event module:Select#show
-             * @type {object}
-             * @property {?HTMLElement=} target 触发显示浮层的节点
-             */
-            this.fire('show', {target: target});
-
-        },
-
-        /**
-         * 隐藏浮层
-         * 
-         * @fires module:Select#hide 隐藏事件
-         * @public
-         */
-        hide: function () {
-            
-            this.popup.hide();
-
-            /**
-             * @event module:Select#hide
-             */
-            this.fire('hide');
         },
 
         /**
@@ -481,6 +286,204 @@ define(function (require) {
                 });           
             }
 
+        }
+    };
+
+    /**
+     * 下拉选择菜单
+     * 
+     * @extends module:Control
+     * @requires lib
+     * @requires Control
+     * @exports Select
+     * @example
+     *  new Select({
+     *     prefix: 'ecl-ui-sel',
+     *     main: me.qq('ecl-ui-sel'),
+     *     target: me.qq('ecl-ui-sel-holder'),
+     *     offset: {
+     *       y: -1
+     *     },
+     *     onChange: function (arg) {
+     *       window.console && console.log(arg);
+     *     }
+     *   }).render();
+     */
+    var Select = Control.extend(/** @lends module:Select.prototype */{
+
+        /**
+         * 控件类型标识
+         * 
+         * @type {string}
+         * @private
+         */
+        type: 'Select',
+
+        /**
+         * 控件配置项
+         * 
+         * @private
+         * @name module:Select#options
+         * @type {Object}
+         * @property {boolean} options.disabled 控件的不可用状态
+         * @property {(string | HTMLElement)} options.main 控件渲染容器
+         * @property {number} options.maxLength 显示选中值时的限度字节长度
+         * @property {string} options.ellipsis maxLength 限制后的附加的后缀字符
+         * @property {(string | HTMLElement)} options.target 计算选单显示时
+         * 相对位置的目标对象
+         * @property {number} options.cols 选项显示的列数，默认为 1 列
+         * @property {string} options.prefix 控件class前缀，同时将作为main的class之一
+         * @property {string} options.isNumber 控件值的类型是否限制为数字
+         * @property {?Array=} options.datasource 填充下拉项的数据源
+         * 推荐格式 { text: '', value: '' }, 未指定 value 时会根据 valueUseIndex 的
+         * 设置使用 text 或自动索引值，可简写成字符串 '北京, 上海, 广州' 或 
+         * '北京:010, 上海:021, 广州:020'
+         * @property {bool} options.valueUseIndex datasource 未指定 value 时是否
+         * 使用自动索引值
+         */
+        options: {
+
+            // 提示框的不可用状态，默认为false。处于不可用状态的提示框不会出现。
+            disabled: false,
+
+            // 控件渲染主容器
+            main: '',
+
+            // 显示选中值时的限度字节长度
+            maxLength: 16,
+
+            // maxLength 限制后的附加的后缀字符
+            ellipsis: '...',
+
+            // 计算选单显示时相对位置的目标对象
+            target: '',
+
+            // 显示列数
+            cols: 1,
+
+            // 选中项的 class
+            selectedClass: 'cur',
+
+            // 控件class前缀，同时将作为main的class之一
+            prefix: 'ecl-ui-sel',
+
+            // 控件值的类型是否为数字
+            isNumber: true,
+
+            // 数据源
+            datasource: null,
+
+            // datasource 项未指定 value 时
+            valueUseIndex: false
+        },
+
+        /**
+         * 控件初始化
+         * 
+         * @param {Object} options 控件配置项
+         * @see module:Select#options
+         * @private
+         */
+        init: function (options) {
+
+            if (!options.target) {
+                throw new Error('invalid target');
+            }
+
+            this._disabled  = options.disabled;
+            this.bindEvents(privates);
+        },
+
+
+        /**
+         * 绘制控件
+         * 
+         * @return {module:Select} 当前实例
+         * @override
+         * @public
+         */
+        render: function () {
+            var options = this.options;
+
+            if (!this.rendered) {
+                this.rendered = true;
+
+                this.target = lib.g(options.target);
+                this.realTarget = lib.dom.first(this.target) || this.target;
+                this.defaultValue = this.realTarget.innerHTML
+                    || this.realTarget.value
+                    || '';
+
+                this.srcOptions.triggers = [this.target];
+
+                var popup = this.popup = new Popup(this.srcOptions);
+                this.addChild(popup);
+
+                if (options.datasource) {
+                    options.isNumber = options.valueUseIndex;
+                    this.fill(options.datasource);
+                }
+
+                var bound = this._bound;
+                popup.on('click', bound.onClick);
+                popup.on('beforeShow', bound.onBeforeShow);
+                popup.on('hide', bound.onHide);
+
+                popup.render();
+
+                this.on('disable', bound.onDisable);
+                this.on('enable', bound.onEnable);
+                this.main = popup.main;
+
+                if (options.cols > 1) {
+                    lib.addClass(
+                        this.main,
+                        options.prefix + '-cols' + options.cols
+                    );
+                    //lib.addClass(this.main, 'c-clearfix');
+                }
+            }
+            else {
+                this.popup.render();
+            }
+
+            return this;
+        },
+
+        /**
+         * 显示浮层
+         * 
+         * @param {?HTMLElement=} target 触发显示浮层的节点
+         * @fires module:Select#show 显示事件
+         * @public
+         */
+        show: function (target) {
+
+            this.popup.show();
+
+            /**
+             * @event module:Select#show
+             * @type {object}
+             * @property {?HTMLElement=} target 触发显示浮层的节点
+             */
+            this.fire('show', {target: target});
+
+        },
+
+        /**
+         * 隐藏浮层
+         * 
+         * @fires module:Select#hide 隐藏事件
+         * @public
+         */
+        hide: function () {
+            
+            this.popup.hide();
+
+            /**
+             * @event module:Select#hide
+             */
+            this.fire('hide');
         },
 
         /**
@@ -550,7 +553,7 @@ define(function (require) {
          * @public
          */
         reset: function () {
-            this.pick(lib.dom.first(this.main), true);
+            privates.pick.call(this, lib.dom.first(this.main), true);
         }
     });
 
@@ -566,13 +569,13 @@ define(function (require) {
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Modules</h3><ul><li><a href="module-Calendar.html">Calendar</a></li><li><a href="module-CalendarExtension.html">CalendarExtension</a></li><li><a href="module-City.html">City</a></li><li><a href="module-Control.html">Control</a></li><li><a href="module-Cookie.html">Cookie</a></li><li><a href="module-Dialog.html">Dialog</a></li><li><a href="module-DialogFactory.html">DialogFactory</a></li><li><a href="module-Filter.html">Filter</a></li><li><a href="module-FloatTip.html">FloatTip</a></li><li><a href="module-Lazy.html">Lazy</a></li><li><a href="module-LazyImg.html">LazyImg</a></li><li><a href="module-lib.html">lib</a></li><li><a href="module-log.html">log</a></li><li><a href="module-Lunar.html">Lunar</a></li><li><a href="module-Pager.html">Pager</a></li><li><a href="module-PicUploader.html">PicUploader</a></li><li><a href="module-Popup.html">Popup</a></li><li><a href="module-Rating.html">Rating</a></li><li><a href="module-ScrollBar.html">ScrollBar</a></li><li><a href="module-Select.html">Select</a></li><li><a href="module-Slider.html">Slider</a></li><li><a href="SliderAnim.html">SliderAnim</a></li><li><a href="module-Tabs.html">Tabs</a></li><li><a href="module-Tip.html">Tip</a></li><li><a href="TimeLine.html">TimeLine</a></li></ul><h3>Classes</h3><ul><li><a href="initialize.html">initialize</a></li><li><a href="module-Dialog-Mask.html">Mask</a></li></ul><h3>Events</h3><ul><li><a href="CalendarExtension-Menu.html#event:beforeShow">beforeShow</a></li><li><a href="CalendarExtension-Menu.html#event:click">click</a></li><li><a href="CalendarExtension-Menu.html#event:pick">pick</a></li><li><a href="module-Calendar.html#event:beforeShow">beforeShow</a></li><li><a href="module-Calendar.html#event:hide">hide</a></li><li><a href="module-Calendar.html#event:pick">pick</a></li><li><a href="module-Calendar.html#event:show">show</a></li><li><a href="module-City.html#event:beforeShow">beforeShow</a></li><li><a href="module-City.html#event:click">click</a></li><li><a href="module-City.html#event:hide">hide</a></li><li><a href="module-City.html#event:pick">pick</a></li><li><a href="module-City.html#event:show">show</a></li><li><a href="module-Control.html#event:disable">disable</a></li><li><a href="module-Control.html#event:dispose">dispose</a></li><li><a href="module-Control.html#event:enable">enable</a></li><li><a href="module-Dialog.html#event:beforedispose">beforedispose</a></li><li><a href="module-Dialog.html#event:beforehide">beforehide</a></li><li><a href="module-Dialog.html#event:beforeshow">beforeshow</a></li><li><a href="module-Dialog.html#event:cancel">cancel</a></li><li><a href="module-Dialog.html#event:confirm">confirm</a></li><li><a href="module-Dialog.html#event:dispose">dispose</a></li><li><a href="module-Dialog.html#event:hide">hide</a></li><li><a href="module-Dialog.html#event:show">show</a></li><li><a href="module-Filter.html#event:change">change</a></li><li><a href="module-Filter.html#event:click">click</a></li><li><a href="module-log.html#event:click">click</a></li><li><a href="module-log.html#event:send">send</a></li><li><a href="module-log.html#event:start">start</a></li><li><a href="module-Lunar.html#event:click">click</a></li><li><a href="module-Lunar.html#event:navigate">navigate</a></li><li><a href="module-Lunar.html#event:pick">pick</a></li><li><a href="module-Pager.html#event:change">change</a></li><li><a href="module-Pager.html#event:click">click</a></li><li><a href="module-PicUploader.html#event:error">error</a></li><li><a href="global.html#event:module:PicUploader:remove">module:PicUploader:remove</a></li><li><a href="module-Popup.html#event:beforeShow">beforeShow</a></li><li><a href="module-Popup.html#event:click">click</a></li><li><a href="module-Popup.html#event:hide">hide</a></li><li><a href="module-Popup.html#event:show">show</a></li><li><a href="module-Rating.html#event:rated">rated</a></li><li><a href="module-ScrollBar.html#event:change">change</a></li><li><a href="module-Select.html#event:beforeShow">beforeShow</a></li><li><a href="module-Select.html#event:change">change</a></li><li><a href="module-Select.html#event:hide">hide</a></li><li><a href="module-Select.html#event:pick">pick</a></li><li><a href="module-Select.html#event:show">show</a></li><li><a href="module-Slider.html#event:change">change</a></li><li><a href="module-Tabs.html#event:change">change</a></li><li><a href="module-Tip.html#event:beforeShow">beforeShow</a></li><li><a href="module-Tip.html#event:click">click</a></li><li><a href="module-Tip.html#event:hide">hide</a></li><li><a href="module-Tip.html#event:show">show</a></li></ul><h3>Namespaces</h3><ul><li><a href="module-lib.array.html">array</a></li><li><a href="module-lib.browser.html">browser</a></li><li><a href="module-lib.configurable.html">configurable</a></li><li><a href="module-lib.date.html">date</a></li><li><a href="module-lib.dom.html">dom</a></li><li><a href="module-lib.event.html">event</a></li><li><a href="module-lib.fn.html">fn</a></li><li><a href="module-lib.object.html">object</a></li><li><a href="module-lib.observable.html">observable</a></li><li><a href="module-lib.page.html">page</a></li><li><a href="module-lib.string.html">string</a></li></ul><h3>Global</h3><ul><li><a href="global.html#beforeSwitch">beforeSwitch</a></li><li><a href="global.html#disable">disable</a></li><li><a href="global.html#dispose">dispose</a></li><li><a href="global.html#enable">enable</a></li><li><a href="global.html#isBusy">isBusy</a></li><li><a href="global.html#refresh">refresh</a></li><li><a href="global.html#setOpacity">setOpacity</a></li><li><a href="global.html#switchTo">switchTo</a></li><li><a href="global.html#tick">tick</a></li><li><a href="global.html#timeHandler">timeHandler</a></li></ul>
+    <h2><a href="index.html">Index</a></h2><h3>Modules</h3><ul><li><a href="module-Calendar.html">Calendar</a></li><li><a href="module-CalendarExtension.html">CalendarExtension</a></li><li><a href="module-City.html">City</a></li><li><a href="module-Control.html">Control</a></li><li><a href="module-Cookie.html">Cookie</a></li><li><a href="module-Dialog.html">Dialog</a></li><li><a href="module-DialogFactory.html">DialogFactory</a></li><li><a href="module-Filter.html">Filter</a></li><li><a href="module-FloatTip.html">FloatTip</a></li><li><a href="module-Lazy.html">Lazy</a></li><li><a href="module-LazyImg.html">LazyImg</a></li><li><a href="module-lib.html">lib</a></li><li><a href="module-log.html">log</a></li><li><a href="module-Lunar.html">Lunar</a></li><li><a href="module-Mask.html">Mask</a></li><li><a href="module-Pager.html">Pager</a></li><li><a href="module-PicUploader.html">PicUploader</a></li><li><a href="module-Popup.html">Popup</a></li><li><a href="module-Rating.html">Rating</a></li><li><a href="module-ScrollBar.html">ScrollBar</a></li><li><a href="module-Select.html">Select</a></li><li><a href="module-Slider.html">Slider</a></li><li><a href="module-SliderAnim.html">SliderAnim</a></li><li><a href="module-Tabs.html">Tabs</a></li><li><a href="module-Tip.html">Tip</a></li></ul><h3>Events</h3><ul><li><a href="CalendarExtension-Menu.html#event:beforeShow">beforeShow</a></li><li><a href="CalendarExtension-Menu.html#event:click">click</a></li><li><a href="CalendarExtension-Menu.html#event:pick">pick</a></li><li><a href="module-Calendar.html#event:beforeShow">beforeShow</a></li><li><a href="module-Calendar.html#event:hide">hide</a></li><li><a href="module-Calendar.html#event:pick">pick</a></li><li><a href="module-Calendar.html#event:show">show</a></li><li><a href="module-City.html#event:beforeShow">beforeShow</a></li><li><a href="module-City.html#event:click">click</a></li><li><a href="module-City.html#event:hide">hide</a></li><li><a href="module-City.html#event:pick">pick</a></li><li><a href="module-City.html#event:show">show</a></li><li><a href="module-Control.html#event:disable">disable</a></li><li><a href="module-Control.html#event:dispose">dispose</a></li><li><a href="module-Control.html#event:enable">enable</a></li><li><a href="module-Dialog.html#event:beforedispose">beforedispose</a></li><li><a href="module-Dialog.html#event:beforehide">beforehide</a></li><li><a href="module-Dialog.html#event:beforeshow">beforeshow</a></li><li><a href="module-Dialog.html#event:cancel">cancel</a></li><li><a href="module-Dialog.html#event:confirm">confirm</a></li><li><a href="module-Dialog.html#event:dispose">dispose</a></li><li><a href="module-Dialog.html#event:hide">hide</a></li><li><a href="module-Dialog.html#event:show">show</a></li><li><a href="module-Filter.html#event:change">change</a></li><li><a href="module-Filter.html#event:click">click</a></li><li><a href="module-log.html#event:click">click</a></li><li><a href="module-log.html#event:send">send</a></li><li><a href="module-log.html#event:start">start</a></li><li><a href="module-Lunar.html#event:click">click</a></li><li><a href="module-Lunar.html#event:navigate">navigate</a></li><li><a href="module-Lunar.html#event:pick">pick</a></li><li><a href="module-Pager.html#event:change">change</a></li><li><a href="module-Pager.html#event:click">click</a></li><li><a href="module-PicUploader.html#event:error">error</a></li><li><a href="module-PicUploader.html#event:remove">remove</a></li><li><a href="module-Popup.html#event:beforeShow">beforeShow</a></li><li><a href="module-Popup.html#event:click">click</a></li><li><a href="module-Popup.html#event:hide">hide</a></li><li><a href="module-Popup.html#event:show">show</a></li><li><a href="module-Rating.html#event:rated">rated</a></li><li><a href="module-ScrollBar.html#event:change">change</a></li><li><a href="module-Select.html#event:beforeShow">beforeShow</a></li><li><a href="module-Select.html#event:change">change</a></li><li><a href="module-Select.html#event:hide">hide</a></li><li><a href="module-Select.html#event:pick">pick</a></li><li><a href="module-Select.html#event:show">show</a></li><li><a href="module-Slider.html#event:change">change</a></li><li><a href="module-Tabs.html#event:change">change</a></li><li><a href="module-Tip.html#event:beforeShow">beforeShow</a></li><li><a href="module-Tip.html#event:click">click</a></li><li><a href="module-Tip.html#event:hide">hide</a></li><li><a href="module-Tip.html#event:show">show</a></li></ul><h3>Namespaces</h3><ul><li><a href="module-CalendarExtension-Menu-privates.html">privates</a></li><li><a href="module-CalendarExtension-privates.html">privates</a></li><li><a href="module-Calendar-privates.html">privates</a></li><li><a href="module-City-privates.html">privates</a></li><li><a href="module-Dialog-privates.html">privates</a></li><li><a href="module-Filter-privates.html">privates</a></li><li><a href="module-FloatTip-privates.html">privates</a></li><li><a href="module-LazyImg-privates.html">privates</a></li><li><a href="module-Lazy-privates.html">privates</a></li><li><a href="module-lib.array.html">array</a></li><li><a href="module-lib.browser.html">browser</a></li><li><a href="module-lib.configurable.html">configurable</a></li><li><a href="module-lib.date.html">date</a></li><li><a href="module-lib.dom.html">dom</a></li><li><a href="module-lib.event.html">event</a></li><li><a href="module-lib.fn.html">fn</a></li><li><a href="module-lib.object.html">object</a></li><li><a href="module-lib.observable.html">observable</a></li><li><a href="module-lib.page.html">page</a></li><li><a href="module-lib.string.html">string</a></li><li><a href="module-Lunar-privates.html">privates</a></li><li><a href="module-Pager-privates.html">privates</a></li><li><a href="module-PicUploader-privates.html">privates</a></li><li><a href="module-Popup-privates.html">privates</a></li><li><a href="module-Rating-privates.html">privates</a></li><li><a href="module-ScrollBar-privates.html">privates</a></li><li><a href="module-Select-privates.html">privates</a></li><li><a href="module-Slider-privates.html">privates</a></li><li><a href="module-Tabs-privates.html">privates</a></li><li><a href="module-Tip-privates.html">privates</a></li></ul>
 </nav>
 
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.2</a> on Fri Feb 28 2014 17:19:19 GMT+0800 (CST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.2</a> on Wed Apr 09 2014 18:36:20 GMT+0800 (CST)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -40,6 +40,77 @@ define(function (require) {
     var Calendar = require('./Calendar');
 
     /**
+     * 私有函数或方法
+     * 
+     * @type {Object}
+     * @namespace
+     * @name module:CalendarExtension~Menu~privates
+     */
+    var menuPrivites = /** @lends module:CalendarExtension~Menu~privates */ {
+
+        /**
+         * 显示前事件处理
+         * 
+         * @param {Event} e DOM 事件源对象
+         * @private
+         */
+        onShow: function (e) {
+            this.show(this.target, true);
+        },
+
+
+        /**
+         * 选择菜单隐藏前处理
+         * 
+         * @param {Event} e DOM 事件源对象
+         * @private
+         */
+        onHide: function (e) {
+            this.hide();
+        },
+
+        /**
+         * 点击事件处理
+         * 
+         * @param {Event} e DOM 事件源对象
+         * @fires CalendarExtension~Menu#click
+         * @fires CalendarExtension~Menu#pick
+         * @private
+         */
+        onClick: function (e) {
+            var target = lib.getTarget(e);
+
+            if (target.tagName === 'A') {
+
+                lib.stopPropagation(e);
+
+                /**
+                 * @event CalendarExtension~Menu#click
+                 * @type {Object}
+                 * @property {HTMLElement} target 当前点击的元素
+                 */
+                this.fire('click', { target: target });
+
+                if (this.check(target)) {
+                    var value = target.innerHTML;
+                    this.target.innerHTML = value;
+                    this.select(value);
+                    this.hide();
+
+                    /**
+                     * @event CalendarExtension~Menu#pick
+                     * @type {Object}
+                     * @property {string} value 当前选中的值
+                     * @property {HTMLElement} target 当前点击的元素
+                     */
+                    this.fire('pick', {value: value, target:  this.target});
+                }
+
+            }
+        }      
+    };
+
+    /**
      * 年月选择菜单
      * 
      * @memberof module:CalendarExtension
@@ -75,14 +146,6 @@ define(function (require) {
         },
 
         /**
-         * 需要绑定 this 的方法名，多个方法以半角逗号分开
-         * 
-         * @type {string}
-         * @private
-         */
-        binds: 'onShow, onHide, onClick',
-
-        /**
          * 控件初始化
          * 
          * @param {Object} options 控件配置项
@@ -92,6 +155,7 @@ define(function (require) {
         init: function (options) {
             var main = this.main = document.createElement('div');
             lib.addClass(main, options.className);
+            this.bindEvents(menuPrivites);
         },
 
         /**
@@ -111,9 +175,10 @@ define(function (require) {
                 this.build(options.start, options.end);
                 this.elements = main.getElementsByTagName('a');
 
-                lib.on(main, 'mouseenter', this.onShow);
-                lib.on(main, 'mouseleave', this.onHide);
-                lib.on(main, 'click', this.onClick);
+                var bound = this._bound;
+                lib.on(main, 'mouseenter', bound.onShow);
+                lib.on(main, 'mouseleave', bound.onHide);
+                lib.on(main, 'click', bound.onClick);
 
                 if (options.target) {
                     this.setTarget(lib.g(options.target));
@@ -181,17 +246,6 @@ define(function (require) {
                 el && lib.addClass(el, klass);
             }
         },
-
-        /**
-         * 显示前事件处理
-         * 
-         * @param {Event} e DOM 事件源对象
-         * @private
-         */
-        onShow: function (/* e */) {
-            this.show(this.target, true);
-        },
-
         /**
          * 显示选择菜单
          * 
@@ -217,17 +271,6 @@ define(function (require) {
             this.select(target.innerHTML | 0);
             lib.show(main);
         },
-
-        /**
-         * 选择菜单隐藏前处理
-         * 
-         * @param {Event} e DOM 事件源对象
-         * @private
-         */
-        onHide: function (/* e */) {
-            this.hide();
-        },
-
         /**
          * 隐藏选择菜单
          * 
@@ -241,51 +284,11 @@ define(function (require) {
          * 检查是否选中可用的数字
          * 
          * @return {boolean} 可用数字点击时返回 true，否则 false
+         * @public
          */
         check: function () {
             return true;
-        },
-
-        /**
-         * 点击事件处理
-         * 
-         * @param {Event} e DOM 事件源对象
-         * @fires CalendarExtension~Menu#click
-         * @fires CalendarExtension~Menu#pick
-         * @private
-         */
-        onClick: function (e) {
-            var target = lib.getTarget(e);
-
-            if (target.tagName === 'A') {
-
-                lib.stopPropagation(e);
-
-                /**
-                 * @event CalendarExtension~Menu#click
-                 * @type {Object}
-                 * @property {HTMLElement} target 当前点击的元素
-                 */
-                this.fire('click', { target: target });
-
-                if (this.check(target)) {
-                    var value = target.innerHTML;
-                    this.target.innerHTML = value;
-                    this.select(value);
-                    this.hide();
-
-                    /**
-                     * @event CalendarExtension~Menu#pick
-                     * @type {Object}
-                     * @property {string} value 当前选中的值
-                     * @property {HTMLElement} target 当前点击的元素
-                     */
-                    this.fire('pick', {value: value, target:  this.target});
-                }
-
-            }
         }
-
     });
 
     /**
@@ -357,70 +360,13 @@ define(function (require) {
     };
 
     /**
-     * Calendar 扩展类
+     * 私有函数或方法
      * 
-     * 增加年份和月份的快速选择跳转
-     * 
-     * @requires lib
-     * @requires Control
-     * @requires Calendar
-     * @exports CalendarExtension
-     * @see module:Calendar
-     * @example
-     * &lt;input type="text" class="input triggers" /&gt;
-     * &lt;input type="button" value="click" class="triggers" /&gt;
-     * 与 Calendar 使用方式一致
-     * new CalendarExtension({
-     *     dateFormat: 'yyyy-MM-dd(WW)',    // W为星期几，WW带周作前缀
-     *     triggers: '.triggers',
-     *     target: '.input'
-     *  }).render();
+     * @type {Object}
+     * @namespace
+     * @name module:CalendarExtension~privates
      */
-    var CalendarExtension = lib.newClass(
-        /** @lends module:CalendarExtension.prototype */{
-
-        /**
-         * 初始化
-         * 
-         * @param {Object} options 透传给 module:Calendar 的配置参数
-         * @see module:Calendar#options
-         * @private
-         */
-        initialize: function (options) {
-            options = options || {};
-            options.lang = options.lang || {};
-            options.lang.title = ''
-              + '&lt;a href="#" data-menu-type="year"'
-              + ' class="{prefix}-menu-year-handler">{year}&lt;/a>年'
-              + '&lt;a href="#" data-menu-type="month"'
-              + ' class="{prefix}-menu-month-handler">{month}&lt;/a>月';
-
-            this.calendar = new Calendar(options);
-            this.menus = {};
-            lib.binds(this, 'onOver', 'onOut', 'onClick', 'onHide');
-        },
-
-        /**
-         * 绘制控件
-         * 
-         * @return {module:Calendar} module:Calendar 实例
-         * @see module:Calendar#render
-         * @public
-         */
-        render: function () {
-            var calendar = this.calendar;
-            var value = calendar.render.apply(calendar, arguments);
-
-            var main = this.main = calendar.main;
-
-            lib.on(main, 'mouseover', this.onOver);
-            lib.on(main, 'mouseout', this.onOut);
-            lib.on(main, 'click', this.onClick);
-
-            calendar.on('hide', this.onHide);
-
-            return value;
-        },
+    var privates = /** @lends module:CalendarExtension~privates */ {
 
         /**
          * 绘制选择菜单
@@ -471,11 +417,12 @@ define(function (require) {
             var el = lib.getTarget(e);
             var type = el.getAttribute('data-menu-type');
             if (type) {
-                this.renderMenu(el, type);
+                privates.renderMenu.call(this, el, type);
 
                 var main = this.main;
-                lib.un(main, 'mouseover', this.onOver);
-                lib.on(main, 'mouseout', this.onOut);
+                var bound = this._bound;
+                lib.un(main, 'mouseover', bound.onOver);
+                lib.on(main, 'mouseout', bound.onOut);
             }
         },
 
@@ -493,8 +440,9 @@ define(function (require) {
                 menu && menu.hide();
 
                 var main = this.main;
-                lib.on(main, 'mouseover', this.onOver);
-                lib.un(main, 'mouseout', this.onOut);
+                var bound = this._bound;
+                lib.on(main, 'mouseover', bound.onOver);
+                lib.un(main, 'mouseout', bound.onOut);
             }
         },
 
@@ -505,7 +453,7 @@ define(function (require) {
          * @private
          */
         onClick: function (e) {
-            this.onHide(e);
+            privates.onHide.call(this, e);
         },
 
         /**
@@ -514,11 +462,99 @@ define(function (require) {
          * @param {Event} e DOM 事件源对象
          * @private
          */
-        onHide: function (/* e */) {
-            this.year && this.year.hide();
-            this.month && this.month.hide();
-        }
+        onHide: function (e) {
+            lib.forIn(this.menus, function (menu) {
+                menu.hide();
+            });
+        }        
+    };
 
+    /**
+     * Calendar 扩展类
+     * 
+     * 增加年份和月份的快速选择跳转
+     * 
+     * @requires lib
+     * @requires Control
+     * @requires Calendar
+     * @exports CalendarExtension
+     * @see module:Calendar
+     * @example
+     * &lt;input type="text" class="input triggers" /&gt;
+     * &lt;input type="button" value="click" class="triggers" /&gt;
+     * 与 Calendar 使用方式一致
+     * new CalendarExtension({
+     *     dateFormat: 'yyyy-MM-dd(WW)',    // W为星期几，WW带周作前缀
+     *     triggers: '.triggers',
+     *     target: '.input'
+     *  }).render();
+     */
+    var CalendarExtension = lib.newClass(
+        /** @lends module:CalendarExtension.prototype */{
+
+        /**
+         * 初始化
+         * 
+         * @param {Object} options 透传给 module:Calendar 的配置参数
+         * @see module:Calendar#options
+         * @private
+         */
+        initialize: function (options) {
+            options = options || {};
+            options.lang = options.lang || {};
+            options.lang.title = ''
+              + '&lt;a href="#" data-menu-type="year"'
+              + ' class="{prefix}-menu-year-handler">{year}&lt;/a>年'
+              + '&lt;a href="#" data-menu-type="month"'
+              + ' class="{prefix}-menu-month-handler">{month}&lt;/a>月';
+
+            this.calendar = new Calendar(options);
+            this.menus = {};
+            Control.prototype.bindEvents.call(this, privates);
+        },
+
+        /**
+         * 绘制控件
+         * 
+         * @return {module:Calendar} module:Calendar 实例
+         * @see module:Calendar#render
+         * @public
+         */
+        render: function () {
+            var calendar = this.calendar;
+            var value = calendar.render.apply(calendar, arguments);
+
+            var main = this.main = calendar.main;
+
+            var bound = this._bound;
+            lib.on(main, 'mouseover', bound.onOver);
+            lib.on(main, 'mouseout', bound.onOut);
+            lib.on(main, 'click', bound.onClick);
+
+            calendar.on('hide', bound.onHide);
+
+            return value;
+        },
+
+        /**
+         * 销毁控件
+         * 
+         * @public
+         */
+        dispose: function () {
+            lib.forIn(this.menus, function (menu) {
+                menu.dispose();
+            });
+
+            var main = this.main;
+            var bound = this._bound;
+            lib.un(main, 'mouseover', bound.onOver);
+            lib.un(main, 'mouseout', bound.onOut);
+            lib.un(main, 'click', bound.onClick);
+
+            this.calendar.un('hide', bound.onHide);
+            this.calendar.dispose();
+        }
 
     });
     
@@ -535,13 +571,13 @@ define(function (require) {
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Modules</h3><ul><li><a href="module-Calendar.html">Calendar</a></li><li><a href="module-CalendarExtension.html">CalendarExtension</a></li><li><a href="module-City.html">City</a></li><li><a href="module-Control.html">Control</a></li><li><a href="module-Cookie.html">Cookie</a></li><li><a href="module-Dialog.html">Dialog</a></li><li><a href="module-DialogFactory.html">DialogFactory</a></li><li><a href="module-Filter.html">Filter</a></li><li><a href="module-FloatTip.html">FloatTip</a></li><li><a href="module-Lazy.html">Lazy</a></li><li><a href="module-LazyImg.html">LazyImg</a></li><li><a href="module-lib.html">lib</a></li><li><a href="module-log.html">log</a></li><li><a href="module-Lunar.html">Lunar</a></li><li><a href="module-Pager.html">Pager</a></li><li><a href="module-PicUploader.html">PicUploader</a></li><li><a href="module-Popup.html">Popup</a></li><li><a href="module-Rating.html">Rating</a></li><li><a href="module-ScrollBar.html">ScrollBar</a></li><li><a href="module-Select.html">Select</a></li><li><a href="module-Slider.html">Slider</a></li><li><a href="SliderAnim.html">SliderAnim</a></li><li><a href="module-Tabs.html">Tabs</a></li><li><a href="module-Tip.html">Tip</a></li><li><a href="TimeLine.html">TimeLine</a></li></ul><h3>Classes</h3><ul><li><a href="initialize.html">initialize</a></li><li><a href="module-Dialog-Mask.html">Mask</a></li></ul><h3>Events</h3><ul><li><a href="CalendarExtension-Menu.html#event:beforeShow">beforeShow</a></li><li><a href="CalendarExtension-Menu.html#event:click">click</a></li><li><a href="CalendarExtension-Menu.html#event:pick">pick</a></li><li><a href="module-Calendar.html#event:beforeShow">beforeShow</a></li><li><a href="module-Calendar.html#event:hide">hide</a></li><li><a href="module-Calendar.html#event:pick">pick</a></li><li><a href="module-Calendar.html#event:show">show</a></li><li><a href="module-City.html#event:beforeShow">beforeShow</a></li><li><a href="module-City.html#event:click">click</a></li><li><a href="module-City.html#event:hide">hide</a></li><li><a href="module-City.html#event:pick">pick</a></li><li><a href="module-City.html#event:show">show</a></li><li><a href="module-Control.html#event:disable">disable</a></li><li><a href="module-Control.html#event:dispose">dispose</a></li><li><a href="module-Control.html#event:enable">enable</a></li><li><a href="module-Dialog.html#event:beforedispose">beforedispose</a></li><li><a href="module-Dialog.html#event:beforehide">beforehide</a></li><li><a href="module-Dialog.html#event:beforeshow">beforeshow</a></li><li><a href="module-Dialog.html#event:cancel">cancel</a></li><li><a href="module-Dialog.html#event:confirm">confirm</a></li><li><a href="module-Dialog.html#event:dispose">dispose</a></li><li><a href="module-Dialog.html#event:hide">hide</a></li><li><a href="module-Dialog.html#event:show">show</a></li><li><a href="module-Filter.html#event:change">change</a></li><li><a href="module-Filter.html#event:click">click</a></li><li><a href="module-log.html#event:click">click</a></li><li><a href="module-log.html#event:send">send</a></li><li><a href="module-log.html#event:start">start</a></li><li><a href="module-Lunar.html#event:click">click</a></li><li><a href="module-Lunar.html#event:navigate">navigate</a></li><li><a href="module-Lunar.html#event:pick">pick</a></li><li><a href="module-Pager.html#event:change">change</a></li><li><a href="module-Pager.html#event:click">click</a></li><li><a href="module-PicUploader.html#event:error">error</a></li><li><a href="global.html#event:module:PicUploader:remove">module:PicUploader:remove</a></li><li><a href="module-Popup.html#event:beforeShow">beforeShow</a></li><li><a href="module-Popup.html#event:click">click</a></li><li><a href="module-Popup.html#event:hide">hide</a></li><li><a href="module-Popup.html#event:show">show</a></li><li><a href="module-Rating.html#event:rated">rated</a></li><li><a href="module-ScrollBar.html#event:change">change</a></li><li><a href="module-Select.html#event:beforeShow">beforeShow</a></li><li><a href="module-Select.html#event:change">change</a></li><li><a href="module-Select.html#event:hide">hide</a></li><li><a href="module-Select.html#event:pick">pick</a></li><li><a href="module-Select.html#event:show">show</a></li><li><a href="module-Slider.html#event:change">change</a></li><li><a href="module-Tabs.html#event:change">change</a></li><li><a href="module-Tip.html#event:beforeShow">beforeShow</a></li><li><a href="module-Tip.html#event:click">click</a></li><li><a href="module-Tip.html#event:hide">hide</a></li><li><a href="module-Tip.html#event:show">show</a></li></ul><h3>Namespaces</h3><ul><li><a href="module-lib.array.html">array</a></li><li><a href="module-lib.browser.html">browser</a></li><li><a href="module-lib.configurable.html">configurable</a></li><li><a href="module-lib.date.html">date</a></li><li><a href="module-lib.dom.html">dom</a></li><li><a href="module-lib.event.html">event</a></li><li><a href="module-lib.fn.html">fn</a></li><li><a href="module-lib.object.html">object</a></li><li><a href="module-lib.observable.html">observable</a></li><li><a href="module-lib.page.html">page</a></li><li><a href="module-lib.string.html">string</a></li></ul><h3>Global</h3><ul><li><a href="global.html#beforeSwitch">beforeSwitch</a></li><li><a href="global.html#disable">disable</a></li><li><a href="global.html#dispose">dispose</a></li><li><a href="global.html#enable">enable</a></li><li><a href="global.html#isBusy">isBusy</a></li><li><a href="global.html#refresh">refresh</a></li><li><a href="global.html#setOpacity">setOpacity</a></li><li><a href="global.html#switchTo">switchTo</a></li><li><a href="global.html#tick">tick</a></li><li><a href="global.html#timeHandler">timeHandler</a></li></ul>
+    <h2><a href="index.html">Index</a></h2><h3>Modules</h3><ul><li><a href="module-Calendar.html">Calendar</a></li><li><a href="module-CalendarExtension.html">CalendarExtension</a></li><li><a href="module-City.html">City</a></li><li><a href="module-Control.html">Control</a></li><li><a href="module-Cookie.html">Cookie</a></li><li><a href="module-Dialog.html">Dialog</a></li><li><a href="module-DialogFactory.html">DialogFactory</a></li><li><a href="module-Filter.html">Filter</a></li><li><a href="module-FloatTip.html">FloatTip</a></li><li><a href="module-Lazy.html">Lazy</a></li><li><a href="module-LazyImg.html">LazyImg</a></li><li><a href="module-lib.html">lib</a></li><li><a href="module-log.html">log</a></li><li><a href="module-Lunar.html">Lunar</a></li><li><a href="module-Mask.html">Mask</a></li><li><a href="module-Pager.html">Pager</a></li><li><a href="module-PicUploader.html">PicUploader</a></li><li><a href="module-Popup.html">Popup</a></li><li><a href="module-Rating.html">Rating</a></li><li><a href="module-ScrollBar.html">ScrollBar</a></li><li><a href="module-Select.html">Select</a></li><li><a href="module-Slider.html">Slider</a></li><li><a href="module-SliderAnim.html">SliderAnim</a></li><li><a href="module-Tabs.html">Tabs</a></li><li><a href="module-Tip.html">Tip</a></li></ul><h3>Events</h3><ul><li><a href="CalendarExtension-Menu.html#event:beforeShow">beforeShow</a></li><li><a href="CalendarExtension-Menu.html#event:click">click</a></li><li><a href="CalendarExtension-Menu.html#event:pick">pick</a></li><li><a href="module-Calendar.html#event:beforeShow">beforeShow</a></li><li><a href="module-Calendar.html#event:hide">hide</a></li><li><a href="module-Calendar.html#event:pick">pick</a></li><li><a href="module-Calendar.html#event:show">show</a></li><li><a href="module-City.html#event:beforeShow">beforeShow</a></li><li><a href="module-City.html#event:click">click</a></li><li><a href="module-City.html#event:hide">hide</a></li><li><a href="module-City.html#event:pick">pick</a></li><li><a href="module-City.html#event:show">show</a></li><li><a href="module-Control.html#event:disable">disable</a></li><li><a href="module-Control.html#event:dispose">dispose</a></li><li><a href="module-Control.html#event:enable">enable</a></li><li><a href="module-Dialog.html#event:beforedispose">beforedispose</a></li><li><a href="module-Dialog.html#event:beforehide">beforehide</a></li><li><a href="module-Dialog.html#event:beforeshow">beforeshow</a></li><li><a href="module-Dialog.html#event:cancel">cancel</a></li><li><a href="module-Dialog.html#event:confirm">confirm</a></li><li><a href="module-Dialog.html#event:dispose">dispose</a></li><li><a href="module-Dialog.html#event:hide">hide</a></li><li><a href="module-Dialog.html#event:show">show</a></li><li><a href="module-Filter.html#event:change">change</a></li><li><a href="module-Filter.html#event:click">click</a></li><li><a href="module-log.html#event:click">click</a></li><li><a href="module-log.html#event:send">send</a></li><li><a href="module-log.html#event:start">start</a></li><li><a href="module-Lunar.html#event:click">click</a></li><li><a href="module-Lunar.html#event:navigate">navigate</a></li><li><a href="module-Lunar.html#event:pick">pick</a></li><li><a href="module-Pager.html#event:change">change</a></li><li><a href="module-Pager.html#event:click">click</a></li><li><a href="module-PicUploader.html#event:error">error</a></li><li><a href="module-PicUploader.html#event:remove">remove</a></li><li><a href="module-Popup.html#event:beforeShow">beforeShow</a></li><li><a href="module-Popup.html#event:click">click</a></li><li><a href="module-Popup.html#event:hide">hide</a></li><li><a href="module-Popup.html#event:show">show</a></li><li><a href="module-Rating.html#event:rated">rated</a></li><li><a href="module-ScrollBar.html#event:change">change</a></li><li><a href="module-Select.html#event:beforeShow">beforeShow</a></li><li><a href="module-Select.html#event:change">change</a></li><li><a href="module-Select.html#event:hide">hide</a></li><li><a href="module-Select.html#event:pick">pick</a></li><li><a href="module-Select.html#event:show">show</a></li><li><a href="module-Slider.html#event:change">change</a></li><li><a href="module-Tabs.html#event:change">change</a></li><li><a href="module-Tip.html#event:beforeShow">beforeShow</a></li><li><a href="module-Tip.html#event:click">click</a></li><li><a href="module-Tip.html#event:hide">hide</a></li><li><a href="module-Tip.html#event:show">show</a></li></ul><h3>Namespaces</h3><ul><li><a href="module-CalendarExtension-Menu-privates.html">privates</a></li><li><a href="module-CalendarExtension-privates.html">privates</a></li><li><a href="module-Calendar-privates.html">privates</a></li><li><a href="module-City-privates.html">privates</a></li><li><a href="module-Dialog-privates.html">privates</a></li><li><a href="module-Filter-privates.html">privates</a></li><li><a href="module-FloatTip-privates.html">privates</a></li><li><a href="module-LazyImg-privates.html">privates</a></li><li><a href="module-Lazy-privates.html">privates</a></li><li><a href="module-lib.array.html">array</a></li><li><a href="module-lib.browser.html">browser</a></li><li><a href="module-lib.configurable.html">configurable</a></li><li><a href="module-lib.date.html">date</a></li><li><a href="module-lib.dom.html">dom</a></li><li><a href="module-lib.event.html">event</a></li><li><a href="module-lib.fn.html">fn</a></li><li><a href="module-lib.object.html">object</a></li><li><a href="module-lib.observable.html">observable</a></li><li><a href="module-lib.page.html">page</a></li><li><a href="module-lib.string.html">string</a></li><li><a href="module-Lunar-privates.html">privates</a></li><li><a href="module-Pager-privates.html">privates</a></li><li><a href="module-PicUploader-privates.html">privates</a></li><li><a href="module-Popup-privates.html">privates</a></li><li><a href="module-Rating-privates.html">privates</a></li><li><a href="module-ScrollBar-privates.html">privates</a></li><li><a href="module-Select-privates.html">privates</a></li><li><a href="module-Slider-privates.html">privates</a></li><li><a href="module-Tabs-privates.html">privates</a></li><li><a href="module-Tip-privates.html">privates</a></li></ul>
 </nav>
 
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.2</a> on Fri Feb 28 2014 17:19:19 GMT+0800 (CST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.2</a> on Wed Apr 09 2014 18:36:20 GMT+0800 (CST)
 </footer>
 
 <script> prettyPrint(); </script>
