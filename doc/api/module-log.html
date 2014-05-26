@@ -79,34 +79,7 @@
         
             <h3>Example</h3>
             
-    <pre class="prettyprint"><code>log.config({
- data: {
-     pid: 201,
-     cat: 'home',
-     page: 'baby',
-     fr: 'ps-zhixin',
-     pvid: '123ef33257',
-     rqid: '233f93323',
-     qid: 'dd322f65003ee7a7',
-     psid: 2401,
-     sid: 3557,
-     f: 1,
-     q: 'Glaxay Note'
- }
-});
-log.live({
- 'mod1': function (json) {
-     // console.log(json.data);
-     // console.log(json.target);
-     // console.log(json.main);
- },
- 'mod2': function (json) {
-     if (json.target.tagName === 'a') {
-         data.act = 'remove';
-     }
- }
-});
-log.start();</code></pre>
+    <pre class="prettyprint"><code>log.config({ data: {     pid: 201,     cat: 'home',     page: 'baby',     fr: 'ps-zhixin',     pvid: '123ef33257',     rqid: '233f93323',     qid: 'dd322f65003ee7a7',     psid: 2401,     sid: 3557,     f: 1,     q: 'Glaxay Note' }});log.live({ 'mod1': function (json) {     // console.log(json.data);     // console.log(json.target);     // console.log(json.main); }, 'mod2': function (json) {     if (json.target.tagName === 'a') {         data.act = 'remove';     } }});log.start();</code></pre>
 
         
     
@@ -468,9 +441,7 @@ log.start();</code></pre>
             
             
             
-            <td class="description last">产品线 id。
-对应 nsclick 的 pid 概念。Nsclick 用 pid 将不同产品线的日志进行分割。
-不允许为默认值 -。</td>
+            <td class="description last">产品线 id。对应 nsclick 的 pid 概念。Nsclick 用 pid 将不同产品线的日志进行分割。不允许为默认值 -。</td>
         </tr>
 	
 	
@@ -499,9 +470,7 @@ log.start();</code></pre>
             
             
             
-            <td class="description last">对全站不同类型的页面的划分。
-比如 cat=home 表示人工编辑的首 页,cat=product 表示商品陈列页。
-类比知 道 type 字段,type=2030 为检索页,2014 为问题页。</td>
+            <td class="description last">对全站不同类型的页面的划分。比如 cat=home 表示人工编辑的首 页,cat=product 表示商品陈列页。类比知 道 type 字段,type=2030 为检索页,2014 为问题页。</td>
         </tr>
 	
 	
@@ -530,9 +499,7 @@ log.start();</code></pre>
             
             
             
-            <td class="description last">某一类具体页面。
-在粒度上, cat > page > 具体 url。比如 cat=home&page= baby 表示 首页下的
-母婴产品目录页。如果 cat 字段 符合层级结构,可以不使用此字段: cat=home-baby。</td>
+            <td class="description last">某一类具体页面。在粒度上, cat > page > 具体 url。比如 cat=home&page= baby 表示 首页下的母婴产品目录页。如果 cat 字段 符合层级结构,可以不使用此字段: cat=home-baby。</td>
         </tr>
 	
 	
@@ -561,8 +528,7 @@ log.start();</code></pre>
             
             
             
-            <td class="description last">对 pv 的来源进行分类。
-或者在某次实验中 记录特定的导流来源。粒度大于 refer。</td>
+            <td class="description last">对 pv 的来源进行分类。或者在某次实验中 记录特定的导流来源。粒度大于 refer。</td>
         </tr>
 	
 	
@@ -591,10 +557,7 @@ log.start();</code></pre>
             
             
             
-            <td class="description last">记录一次 pv 的唯一 id。
-类似于大搜 索的 qid (query id)。应当由由后台生成, 保证前端日志和后端日志可以 merge。 
-如果系统不能生成,最简单的方法是用进入页 面的时间戳。从页面发起的所有点击 pvid 一致,
-用于串联一次页面上的点击。</td>
+            <td class="description last">记录一次 pv 的唯一 id。类似于大搜 索的 qid (query id)。应当由由后台生成, 保证前端日志和后端日志可以 merge。 如果系统不能生成,最简单的方法是用进入页 面的时间戳。从页面发起的所有点击 pvid 一致,用于串联一次页面上的点击。</td>
         </tr>
 	
 	
@@ -623,8 +586,7 @@ log.start();</code></pre>
             
             
             
-            <td class="description last">页面可能使用异步刷新。
-一次 pv 下发出多个 request。每一个 request 用 rqid 唯一标识。</td>
+            <td class="description last">页面可能使用异步刷新。一次 pv 下发出多个 request。每一个 request 用 rqid 唯一标识。</td>
         </tr>
 	
 	
@@ -653,8 +615,7 @@ log.start();</code></pre>
             
             
             
-            <td class="description last">大搜索一次检索唯一标识
-用来 merge 大搜 索和中间页的点击日志。不允许为默认值 -</td>
+            <td class="description last">大搜索一次检索唯一标识用来 merge 大搜 索和中间页的点击日志。不允许为默认值 -</td>
         </tr>
 	
 	
@@ -718,8 +679,7 @@ log.start();</code></pre>
             
             
             
-            <td class="description last">中间页的抽样 id。
-如果由抽样平台统一接管, 则 psid = sid。</td>
+            <td class="description last">中间页的抽样 id。如果由抽样平台统一接管, 则 psid = sid。</td>
         </tr>
 	
 	
@@ -780,10 +740,7 @@ log.start();</code></pre>
             
             
             
-            <td class="description last">用户动作类型。
-act=pv 表示页面加载, act=a[\w+]表示点击一个链接(离开本页)。
-act=b[\w+]表示在页面内的一个操作(筛选, 下拉菜单等,操作完毕后仍然停留在本页)。
-一些重要的 b[\w+]操作可以单独列出。比如下单操作重要性高于筛选操作。</td>
+            <td class="description last">用户动作类型。act=pv 表示页面加载, act=a[\w+]表示点击一个链接(离开本页)。act=b[\w+]表示在页面内的一个操作(筛选, 下拉菜单等,操作完毕后仍然停留在本页)。一些重要的 b[\w+]操作可以单独列出。比如下单操作重要性高于筛选操作。</td>
         </tr>
 	
 	
@@ -812,9 +769,7 @@ act=b[\w+]表示在页面内的一个操作(筛选, 下拉菜单等,操作完毕
             
             
             
-            <td class="description last">对页面进行分块统计。
-标识一些常用组件,在不同页面中保持稳定。通常可以 为页面 dom 元素的 id。
-比如首页和商品页 都有 mod=recommend-left 的“热门商品推荐”。</td>
+            <td class="description last">对页面进行分块统计。标识一些常用组件,在不同页面中保持稳定。通常可以 为页面 dom 元素的 id。比如首页和商品页 都有 mod=recommend-left 的“热门商品推荐”。</td>
         </tr>
 	
 	
@@ -843,8 +798,7 @@ act=b[\w+]表示在页面内的一个操作(筛选, 下拉菜单等,操作完毕
             
             
             
-            <td class="description last">点击或者操作对象。
-在微购中 item 对应商 品 id。在游戏中间页汇总,item 对应游戏 id。</td>
+            <td class="description last">点击或者操作对象。在微购中 item 对应商 品 id。在游戏中间页汇总,item 对应游戏 id。</td>
         </tr>
 	
 	
@@ -876,8 +830,7 @@ act=b[\w+]表示在页面内的一个操作(筛选, 下拉菜单等,操作完毕
             
             
             
-            <td class="description last">点击 item 对象在页面中的顺序号。
-类似于大搜索结果的 1~10 位。</td>
+            <td class="description last">点击 item 对象在页面中的顺序号。类似于大搜索结果的 1~10 位。</td>
         </tr>
 	
 	
@@ -906,9 +859,7 @@ act=b[\w+]表示在页面内的一个操作(筛选, 下拉菜单等,操作完毕
             
             
             
-            <td class="description last">点击元素的 xpath。
-如果记录绝对 path 或者相对 path。
-比如热门商品推荐在不同的不稳定,可以记录相对于 mod 的 xpath。不允许为默认值 -。</td>
+            <td class="description last">点击元素的 xpath。如果记录绝对 path 或者相对 path。比如热门商品推荐在不同的不稳定,可以记录相对于 mod 的 xpath。不允许为默认值 -。</td>
         </tr>
 	
 	
@@ -937,8 +888,7 @@ act=b[\w+]表示在页面内的一个操作(筛选, 下拉菜单等,操作完毕
             
             
             
-            <td class="description last">表示搜索页面的加载来源。
-参照大搜索的 f 字段, 1(主动改写)、2(下侧推荐)、3(sug)。</td>
+            <td class="description last">表示搜索页面的加载来源。参照大搜索的 f 字段, 1(主动改写)、2(下侧推荐)、3(sug)。</td>
         </tr>
 	
 	
@@ -1029,9 +979,7 @@ act=b[\w+]表示在页面内的一个操作(筛选, 下拉菜单等,操作完毕
             
             
             
-            <td class="description last">Reserve 字段。
-其他不在通用字段中的结果 都可以用 dict 表示。比如微购产品页的地域 信息。
-如果一个字段足够常用, 再将它从 rsv 提升到固定字段中。</td>
+            <td class="description last">Reserve 字段。其他不在通用字段中的结果 都可以用 dict 表示。比如微购产品页的地域 信息。如果一个字段足够常用, 再将它从 rsv 提升到固定字段中。</td>
         </tr>
 	
 	
@@ -2626,8 +2574,7 @@ act=b[\w+]表示在页面内的一个操作(筛选, 下拉菜单等,操作完毕
     
     
     <div class="description">
-        填充数据
-根据当前点击对象，解释对象所处 XPath 及 url
+        填充数据根据当前点击对象，解释对象所处 XPath 及 url
     </div>
     
 
@@ -4114,7 +4061,7 @@ act=b[\w+]表示在页面内的一个操作(筛选, 下拉菜单等,操作完毕
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.2</a> on Wed Apr 09 2014 18:36:24 GMT+0800 (CST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.2</a> on Mon May 26 2014 20:05:01 GMT+0800 (CST)
 </footer>
 
 <script> prettyPrint(); </script>

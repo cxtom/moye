@@ -239,7 +239,7 @@ define(function (require) {
 
             //渲染主框架内容
             var main = this.createElement('div', {
-                'class': privates.getClass.call(this)
+                'className': privates.getClass.call(this)
             });
 
             lib.setStyles(main, {
@@ -663,6 +663,29 @@ define(function (require) {
                 this.rendered = true;
             }
             return this;
+        },
+
+        /**
+         * 调整Dialog大小
+         * 
+         * @param {Number} width 宽度
+         */
+        setWidth: function (width) {
+
+            var me = this;
+
+            if (!me.rendered || width < 1) {
+                return me;
+            }
+
+            lib.setStyles(me.main, {
+                width: width + 'px'
+            });
+
+            me.adjustPos();
+
+            return me;
+
         },
 
         /**
