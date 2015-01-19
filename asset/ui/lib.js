@@ -1,0 +1,2 @@
+/*! 2015 Baidu Inc. All Rights Reserved */
+define("ui/lib",["require","jquery","./lib/array","./lib/browser","./lib/class","./lib/dom","./lib/function","./lib/interface","./lib/object","./lib/page","./lib/string","./lib/type"],function(require){var e=require("jquery"),t={};return e.extend(t,require("./lib/array"),require("./lib/browser"),require("./lib/class"),require("./lib/dom"),require("./lib/function"),require("./lib/interface"),require("./lib/object"),require("./lib/page"),require("./lib/string"),require("./lib/type")),t});

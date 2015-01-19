@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Tabs - Moye</title>
+<link rel="stylesheet" href="./css/common.css" />
+<script src="./js/esl.js"></script>
+<script src="./js/jquery-1.10.2.min.js"></script>
+<script>
+require.config({ 'baseUrl': '../asset' });
+</script>
+<link rel="stylesheet" href="../asset/css/Tabs.css">
+<style>
+.content {
+  margin: 20px 0;
+}
+
+.markdown .ui-tabs {
+    width: auto;
+}
+</style>
+</head>
+<body>
+<div class="nav">
+    <a href="#" class="logo"><img src="./img/moye.png" alt=""></a>
+    <ul>
+        <li><a href="Button.html" class="">Button</a>
+        <li><a href="Calendar.html" class="">Calendar</a>
+        <li><a href="City.html" class="">City</a>
+        <li><a href="Dialog.html" class="">Dialog</a>
+        <li><a href="Pager.html" class="">Pager</a>
+        <li><a href="Slider.html" class="">Slider</a>
+        <li><a href="Select.html" class="">Select</a>
+        <li><a href="Tabs.html" class="active">Tabs</a>
+        <li><a href="TextBox.html" class="">TextBox</a>
+    </ul>
+</div>
+<div class="container">
+    <div id="main">
+<div class="markdown"><h1 id="tabs-">Tabs 选项卡</h1>
+<h3 id="-">正常模式</h3>
+<pre><code class="lang-html">&lt;ul <span class="property">id</span>=<span class="string">"tabs"</span> <span class="type">class</span>=<span class="string">"ui-tabs"</span>&gt;&lt;/ul&gt;
+</code></pre>
+<pre><code class="lang-js"><span class="keyword">new</span> Tabs({
+<span class="label">    main:</span> document.getElementById(<span class="string">'tabs'</span>),
+<span class="label">    activeIndex:</span> <span class="number">0</span>,
+<span class="label">    mode:</span> <span class="string">'mouseover'</span>,
+<span class="label">    tabs:</span> [
+        {<span class="string">title:</span> <span class="string">'CSS控件'</span>},
+        {<span class="string">title:</span> <span class="string">'UI控件拆分'</span>},
+        {<span class="string">title:</span> <span class="string">'UI栅格化设计'</span>},
+        {<span class="string">title:</span> <span class="string">'如何使用'</span>},
+        {<span class="string">title:</span> <span class="string">'新UI设计规范'</span>},
+        {<span class="string">title:</span> <span class="string">'再点你也切换不了'</span>}
+    ]
+})
+.on(<span class="string">'change'</span>, function (e) {
+    <span class="keyword">if</span> (e.activeIndex === <span class="number">5</span>) {
+        e.preventDefault();
+    }
+})
+.render();
+</code></pre>
+<p>点击标签可以切换</p>
+<blockquote>
+<p>可以通过阻止<code>change</code>事件对象的默认行为来阻止切换标签</p>
+</blockquote>
+</div>
+<div class="content">
+    <ul id="tabs" class="ui-tabs"></ul>
+</div>
+
+<div class="markdown"><script>
+require(['ui/Tabs'], function (Tabs) {
+
+    new Tabs({
+        main: document.getElementById('tabs'),
+        activeIndex: 0,
+        tabs: [
+            {title: 'CSS控件'},
+            {title: 'UI控件拆分'},
+            {title: 'UI栅格化设计'},
+            {title: '如何使用'},
+            {title: '新UI设计规范'},
+            {title: '再点你也切换不了'}
+        ]
+    })
+    .on('change', function (e) {
+        if (e.activeIndex === 5) {
+            e.preventDefault();
+        }
+    })
+    .render();
+
+});
+</script>
+
+<h2 id="-">鼠标移到标签上时切换</h2>
+<blockquote>
+<p>设置参数<code>mode</code>为<code>mouseover</code></p>
+</blockquote>
+<pre><code class="lang-html">&lt;<span class="keyword">div</span> <span class="type">class</span>=<span class="string">"content"</span>&gt;
+    &lt;ul <span class="property">id</span>=<span class="string">"mouseover-tabs"</span> <span class="type">class</span>=<span class="string">"ui-tabs"</span>&gt;&lt;/ul&gt;
+&lt;/<span class="keyword">div</span>&gt;
+</code></pre>
+<pre><code class="lang-js"><span class="tag">new</span> <span class="tag">Tabs</span>(<span class="rules">{
+    <span class="rule"><span class="attribute">main</span>:<span class="value"> document.<span class="function">getElementById</span>(<span class="string">'mouseover-tabs'</span>),
+    activeIndex: <span class="number">0</span>,
+    mode: <span class="string">'mouseover'</span>,
+    tabs: [
+        {title: <span class="string">'CSS控件'</span></span></span></span>},
+        <span class="rules">{<span class="rule"><span class="attribute">title</span>:<span class="value"> <span class="string">'UI控件拆分'</span></span></span></span>},
+        <span class="rules">{<span class="rule"><span class="attribute">title</span>:<span class="value"> <span class="string">'UI栅格化设计'</span></span></span></span>},
+        <span class="rules">{<span class="rule"><span class="attribute">title</span>:<span class="value"> <span class="string">'如何使用'</span></span></span></span>},
+        <span class="rules">{<span class="rule"><span class="attribute">title</span>:<span class="value"> <span class="string">'新UI设计规范'</span></span></span></span>}
+    ]
+})
+<span class="class">.render</span>();
+</code></pre>
+</div>
+<div class="content">
+    <ul id="mouseover-tabs" class="ui-tabs"></ul>
+</div>
+
+<script>
+require(['ui/Tabs'], function (Tabs) {
+
+    new Tabs({
+        main: document.getElementById('mouseover-tabs'),
+        activeIndex: 0,
+        mode: 'mouseover',
+        tabs: [
+            {title: 'CSS控件'},
+            {title: 'UI控件拆分'},
+            {title: 'UI栅格化设计'},
+            {title: '如何使用'},
+            {title: '新UI设计规范'}
+        ]
+    })
+    .render();
+
+});
+</script>
+    </div>
+    <div id="dark-bg">
+        <div id="top-nav">
+            <ul id="lang-nav" class="ui-tabs" data-ctrl-context="default" data-ctrl-id="moye-8">
+                <li class="ui-tabs-item ui-tabs-item-first ui-tabs-active" data-index="0">js</li>
+                <li class="ui-tabs-item" data-index="1">html</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script>
+require(['jquery', 'ui/lib', 'ui/Tabs'], function ($, lib, Tabs) {
+    lib.fixed($('.nav')[0], {
+        top: 0,
+        left: 0,
+        bottom: 0
+    });
+
+    var tabs = [{
+        title: 'js'
+    }, {
+        title: 'html'
+    }];
+
+    new Tabs({
+        main: document.getElementById('lang-nav'),
+        tabs: tabs
+    }).render().on('change', function (e) {
+        switchCode(tabs[e.activeIndex].title);
+    });
+
+    function switchCode(title) {
+        $('pre code').each(function () {
+            var code = $(this);
+            var pre = code.parent();
+            if (code.hasClass('lang-' + title)) {
+                pre.show();
+            }
+            else {
+                pre.hide();
+            }
+        });
+    }
+});
+</script>
+</body>
+</html>

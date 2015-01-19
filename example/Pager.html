@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Pager - Moye</title>
+<link rel="stylesheet" href="./css/common.css" />
+<script src="./js/esl.js"></script>
+<script src="./js/jquery-1.10.2.min.js"></script>
+<script>
+require.config({ 'baseUrl': '../asset' });
+</script>
+<link rel="stylesheet" href="../asset/css/Pager.css" />
+<link rel="stylesheet" href="../asset/css/theme/Pager.card.css" />
+<link rel="stylesheet" href="../asset/css/theme/Pager.jinrong.css" />
+<link rel="stylesheet" href="../asset/css/theme/Pager.jiaoyu.css" />
+<link rel="stylesheet" href="../asset/css/theme/Pager.jiankang.css" />
+<link rel="stylesheet" href="../asset/css/theme/Pager.weigou.css" />
+<link rel="stylesheet" href="../asset/css/theme/Pager.youxi.css" />
+<link rel="stylesheet" href="../asset/css/theme/Pager.hunqing.css" />
+<link rel="stylesheet" href="../asset/css/theme/Pager.qiche.css" />
+<link rel="stylesheet" href="../asset/css/Select.css" />
+<style>
+    .content {
+        text-align: center;
+    }
+</style>
+</head>
+<body>
+<div class="nav">
+    <a href="#" class="logo"><img src="./img/moye.png" alt=""></a>
+    <ul>
+        <li><a href="Button.html" class="">Button</a>
+        <li><a href="Calendar.html" class="">Calendar</a>
+        <li><a href="City.html" class="">City</a>
+        <li><a href="Dialog.html" class="">Dialog</a>
+        <li><a href="Pager.html" class="active">Pager</a>
+        <li><a href="Slider.html" class="">Slider</a>
+        <li><a href="Select.html" class="">Select</a>
+        <li><a href="Tabs.html" class="">Tabs</a>
+        <li><a href="TextBox.html" class="">TextBox</a>
+    </ul>
+</div>
+<div class="container">
+    <div id="main">
+<div class="markdown"><h1 id="pager">Pager</h1>
+<h3 id="-">应用于中间页</h3>
+<pre><code class="lang-js">$(<span class="string">'[data-skin]'</span>).<span class="keyword">each</span>(<span class="function"><span class="keyword">function</span> <span class="params">(i, pager)</span> </span>{
+    <span class="keyword">new</span> Pager({
+        main: pager,
+        page: <span class="number">0</span>,
+        first: <span class="number">0</span>,
+        total: <span class="number">10</span>,
+        padding: <span class="number">3</span>,
+        skin: [pager.getAttribute(<span class="string">'data-skin'</span>)]
+    })
+    .render();
+});
+</code></pre>
+<ul>
+<li>金融 ( 皮肤:<code>jinrong</code> )</li>
+</ul>
+<div class="content">
+    <div data-skin="jinrong" class="ui-pager"></div>
+</div>
+
+<ul>
+<li>教育 ( 皮肤:<code>jiaoyu</code> )</li>
+</ul>
+<div class="content">
+    <div data-skin="jiaoyu" class="ui-pager"></div>
+</div>
+
+<ul>
+<li>健康 ( 皮肤:<code>jiankang</code> )</li>
+</ul>
+<div class="content">
+    <div data-skin="jiankang" class="ui-pager"></div>
+</div>
+
+
+<ul>
+<li>微购 ( 皮肤:<code>weigou</code> )</li>
+</ul>
+<div class="content">
+    <div data-skin="weigou" class="ui-pager"></div>
+</div>
+
+<ul>
+<li>游戏 ( 皮肤:<code>youxi</code> )</li>
+</ul>
+<div class="content">
+    <div data-skin="youxi" class="ui-pager"></div>
+</div>
+
+<ul>
+<li>汽车 ( 皮肤:<code>qiche</code> )</li>
+</ul>
+<div class="content">
+    <div data-skin="qiche" class="ui-pager"></div>
+</div>
+
+<ul>
+<li>婚庆  ( 皮肤:<code>hunqin</code> )</li>
+</ul>
+<div class="content">
+    <div data-skin="hunqing" class="ui-pager"></div>
+</div>
+
+<script>
+require(['jquery', 'ui/Pager'], function ($, Pager) {
+    $('[data-skin]').each(function (i, pager) {
+        new Pager({
+            main: pager,
+            page: 0,
+            first: 0,
+            total: 10,
+            padding: 3,
+            skin: [pager.getAttribute('data-skin')]
+        })
+        .render();
+    });
+});
+</script>
+
+<h3 id="-">设置总页数</h3>
+<pre><code class="lang-js"><span class="built_in">require</span>([<span class="string">'ui/Pager'</span>], <span class="function"><span class="keyword">function</span> <span class="params">(Pager)</span> </span>{
+    <span class="keyword">var</span> pager = <span class="keyword">new</span> Pager({
+        main: $(<span class="string">'#pager2'</span>),
+        total: <span class="number">10</span>
+    })
+    .render();
+
+    <span class="keyword">var</span> Select = <span class="keyword">new</span> Select({
+        main: <span class="built_in">document</span>.getElementById(<span class="string">'page-size'</span>),
+        value: <span class="number">10</span>,
+        datasource: [{
+            name: <span class="string">'10'</span>,
+            value: <span class="number">10</span>
+        }, {
+            name: <span class="string">'20'</span>,
+            value: <span class="number">20</span>
+        }, {
+            name: <span class="string">'50'</span>,
+            value: <span class="number">50</span>
+        }]
+    }).render().on(<span class="string">'change'</span>, <span class="function"><span class="keyword">function</span> <span class="params">(e)</span> </span>{
+        pager.setTotal(e.value);
+    });
+});
+</code></pre>
+<div class="content">
+    <div id="pager2" class="ui-pager"></div>
+    <div id="page-size" class="ui-select"></div>
+</div>
+
+<script>
+require(['ui/Pager', 'ui/Select'], function (Pager, Select) {
+    var pager = new Pager({
+        main: $('#pager2'),
+        total: 10
+    })
+    .render();
+
+    new Select({
+        main: document.getElementById('page-size'),
+        value: 10,
+        datasource: [{
+            name: '10',
+            value: 10
+        }, {
+            name: '20',
+            value: 20
+        }, {
+            name: '50',
+            value: 50
+        }]
+    })
+    .render()
+    .on('change', function (e) {
+        pager.setTotal(e.value);
+    });
+
+});
+</script>
+
+<h3 id="-">应用于大搜索卡片</h3>
+<p>示例：</p>
+<div class="content">
+    <div id="pager1" class="ui-pager"></div>
+</div>
+
+<script>
+require(['ui/Pager'], function (Pager) {
+    new Pager({
+        main: document.getElementById('pager1'),
+        page: 0,
+        first: 1,
+        total: 5,
+        showCount: 10
+    })
+    .render();
+});
+</script>
+
+<pre><code class="lang-js"><span class="built_in">require</span>([<span class="string">'ui/Pager'</span>], <span class="function"><span class="keyword">function</span> <span class="params">(Pager)</span> </span>{
+    <span class="keyword">var</span> pager1 = <span class="keyword">new</span> Pager({
+        main: <span class="string">'pager1'</span>,
+        page: <span class="number">0</span>,
+        first: <span class="number">1</span>,
+        total: <span class="number">10</span>
+    })
+    .on(<span class="string">'change'</span>, <span class="function"><span class="keyword">function</span> <span class="params">(e)</span> </span>{
+        <span class="keyword">this</span>.setPage(e.page);
+    })
+    .render();
+});
+</code></pre>
+<h3 id="-">全部配置参数</h3>
+<hr>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">属性名</th>
+<th style="text-align:left">类型</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">disabled</td>
+<td style="text-align:left">boolean</td>
+<td style="text-align:left">控件的不可用状态</td>
+</tr>
+<tr>
+<td style="text-align:left">main</td>
+<td style="text-align:left">HTMLElement</td>
+<td style="text-align:left">控件渲染容器</td>
+</tr>
+<tr>
+<td style="text-align:left">page</td>
+<td style="text-align:left">number</td>
+<td style="text-align:left">当前页（第一页从0开始）</td>
+</tr>
+<tr>
+<td style="text-align:left">first</td>
+<td style="text-align:left">number</td>
+<td style="text-align:left">起始页码，默认为0</td>
+</tr>
+<tr>
+<td style="text-align:left">padding</td>
+<td style="text-align:left">number</td>
+<td style="text-align:left">当页数较多时，首尾显示页码的个数</td>
+</tr>
+<tr>
+<td style="text-align:left">showAlways</td>
+<td style="text-align:left">boolean</td>
+<td style="text-align:left">是否一直显示分页控件</td>
+</tr>
+<tr>
+<td style="text-align:left">showCount</td>
+<td style="text-align:left">number</td>
+<td style="text-align:left">当页数较多时，中间显示页码的个数</td>
+</tr>
+<tr>
+<td style="text-align:left">total</td>
+<td style="text-align:left">number</td>
+<td style="text-align:left">总页数</td>
+</tr>
+<tr>
+<td style="text-align:left">lang</td>
+<td style="text-align:left">Object<string, string></td>
+<td style="text-align:left">用于显示上下页的文字</td>
+</tr>
+<tr>
+<td style="text-align:left">lang.prev</td>
+<td style="text-align:left">string</td>
+<td style="text-align:left">上一页显示文字(支持HTML)</td>
+</tr>
+<tr>
+<td style="text-align:left">lang.next</td>
+<td style="text-align:left">string</td>
+<td style="text-align:left">下一页显示文字(支持HTML)</td>
+</tr>
+<tr>
+<td style="text-align:left">lang.ellipsis</td>
+<td style="text-align:left">string</td>
+<td style="text-align:left">省略处显示文字(支持HTML)</td>
+</tr>
+</tbody>
+</table>
+<p>在页面切换的时候可以绑定回调事件<code>onChange</code>。</p>
+</div>    </div>
+    <div id="dark-bg">
+        <div id="top-nav">
+            <ul id="lang-nav" class="ui-tabs" data-ctrl-context="default" data-ctrl-id="moye-8">
+                <li class="ui-tabs-item ui-tabs-item-first ui-tabs-active" data-index="0">js</li>
+                <li class="ui-tabs-item" data-index="1">html</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script>
+require(['jquery', 'ui/lib', 'ui/Tabs'], function ($, lib, Tabs) {
+    lib.fixed($('.nav')[0], {
+        top: 0,
+        left: 0,
+        bottom: 0
+    });
+
+    var tabs = [{
+        title: 'js'
+    }, {
+        title: 'html'
+    }];
+
+    new Tabs({
+        main: document.getElementById('lang-nav'),
+        tabs: tabs
+    }).render().on('change', function (e) {
+        switchCode(tabs[e.activeIndex].title);
+    });
+
+    function switchCode(title) {
+        $('pre code').each(function () {
+            var code = $(this);
+            var pre = code.parent();
+            if (code.hasClass('lang-' + title)) {
+                pre.show();
+            }
+            else {
+                pre.hide();
+            }
+        });
+    }
+});
+</script>
+</body>
+</html>

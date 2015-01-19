@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Dialog - Moye</title>
+<link rel="stylesheet" href="./css/common.css" />
+<script src="./js/esl.js"></script>
+<script src="./js/jquery-1.10.2.min.js"></script>
+<script>
+require.config({ 'baseUrl': '../asset' });
+</script>
+<link rel="stylesheet" href="../asset/css/Dialog.css">
+<style>
+  .content {
+    margin: 20px 0;
+  }
+</style>
+</head>
+<body>
+<div class="nav">
+    <a href="#" class="logo"><img src="./img/moye.png" alt=""></a>
+    <ul>
+        <li><a href="Button.html" class="">Button</a>
+        <li><a href="Calendar.html" class="">Calendar</a>
+        <li><a href="City.html" class="">City</a>
+        <li><a href="Dialog.html" class="active">Dialog</a>
+        <li><a href="Pager.html" class="">Pager</a>
+        <li><a href="Slider.html" class="">Slider</a>
+        <li><a href="Select.html" class="">Select</a>
+        <li><a href="Tabs.html" class="">Tabs</a>
+        <li><a href="TextBox.html" class="">TextBox</a>
+    </ul>
+</div>
+<div class="container">
+    <div id="main">
+<div class="markdown"><h1 id="dialog-">Dialog 窗口</h1>
+<h2 id="-">普通窗口</h2>
+<pre><code class="lang-html"><span class="tag">&lt;<span class="title">button</span> <span class="attribute">id</span>=<span class="value">"newDialog"</span>&gt;</span>普通青年(呃，普通窗口)<span class="tag">&lt;/<span class="title">button</span>&gt;</span>
+</code></pre>
+<pre><code class="lang-js"><span class="keyword">var</span> dialog = <span class="keyword">new</span> Dialog({
+  title: <span class="string">'普通青年有一个普通标题'</span>,
+  content: <span class="string">''</span>
+    + <span class="string">'&lt;h3&gt;普通青年背古诗...&lt;/h3&gt;'</span>
+    + <span class="string">'&lt;br&gt;'</span>
+    + <span class="string">'君不见孤雁关外发，酸嘶度扬越。&lt;br&gt; '</span>
+    + <span class="string">'空城客子心肠断，幽闺思妇气欲绝。&lt;br&gt;'</span>
+    + <span class="string">'凝霜夜下拂罗衣，浮云中断开明月。&lt;br&gt;'</span>
+    + <span class="string">'夜夜遥遥徒相思，年年望望情不歇。&lt;br&gt;'</span>
+    + <span class="string">'寄我匣中青铜镜，倩人为君除白发。&lt;br&gt;'</span>
+    + <span class="string">'行路难，行路难，&lt;br&gt;'</span>
+    + <span class="string">'夜闻南城汉使度，使我流泪忆长安！&lt;br&gt;'</span>
+}).render();
+
+$(<span class="string">'#dialog'</span>).on(<span class="string">'click'</span>, $.proxy(dialog.show, dialog));
+</code></pre>
+<div class="content">
+  <button id="dialog">普通青年(呃，普通窗口)</button>
+</div>
+
+<script>
+require(['jquery', 'ui/Dialog'], function ($, Dialog) {
+
+  var dialog = new Dialog({
+    content: ''
+      + '<h3>普通青年背古诗...</h3>'
+      + '<br>'
+      + '君不见孤雁关外发，酸嘶度扬越。<br> '
+      + '空城客子心肠断，幽闺思妇气欲绝。<br>'
+      + '凝霜夜下拂罗衣，浮云中断开明月。<br>'
+      + '夜夜遥遥徒相思，年年望望情不歇。<br>'
+      + '寄我匣中青铜镜，倩人为君除白发。<br>'
+      + '行路难，行路难，<br>'
+      + '夜闻南城汉使度，使我流泪忆长安！<br>',
+    title: '普通青年有一个普通标题'
+  }).render();
+
+  $('#dialog').on('click', $.proxy(dialog.show, dialog));
+});
+</script>
+
+<h2 id="-">会自毁的窗口</h2>
+<pre><code class="lang-js">$(<span class="string">'#auto-dispose'</span>).on(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> </span>{
+
+  <span class="keyword">new</span> Dialog({
+    content: <span class="string">'会自毁的窗口'</span> + (++i),
+    title: <span class="string">'会自毁的窗口'</span>,
+    hideDispose: <span class="literal">true</span>
+  }).render().show();
+
+});
+</code></pre>
+<p>当窗口被隐藏时自动销毁</p>
+<div class="content">
+  <button id="auto-dispose">会自毁的窗口</button>
+</div>
+
+<script>
+require(['jquery', 'ui/Dialog'], function ($, Dialog) {
+
+  var i = 0;
+
+  $('#auto-dispose').on('click', function () {
+
+    new Dialog({
+      content: '会自毁的窗口' + (++i),
+      title: '会自毁的窗口',
+      hideDispose: true
+    }).render().show();
+
+  });
+
+});
+</script>
+
+<pre><code class="lang-js"><span class="keyword">var</span> dialog = <span class="keyword">new</span> Dialog({
+  content: <span class="string">'设定`buttons`参数来添加脚注中的按钮'</span>,
+  title: <span class="string">'带按钮的窗口'</span>,
+  buttons: [{
+    text: <span class="string">'嘿嘿, 我是一个按钮'</span>,
+    part: <span class="string">'big-button'</span>
+  }]
+}).render().on(<span class="string">'buttonclick'</span>, <span class="function"><span class="keyword">function</span> <span class="params">(e)</span> </span>{
+  <span class="comment">// e.part =&gt; big-button</span>
+  <span class="keyword">this</span>.hide();
+});
+
+$(<span class="string">'#footer-buttons'</span>).on(<span class="string">'click'</span>, $.proxy(dialog.show, dialog));
+</code></pre>
+<h2 id="-">带按钮的窗口</h2>
+<p>首先, 我们提供<code>buttons</code>参数. 通过这个参数, 可以很方便地添加脚注中的按钮</p>
+<div class="content">
+  <button id="footer-buttons">带按钮的窗口</button>
+</div>
+
+<script>
+require(['jquery', 'ui/Dialog'], function ($, Dialog) {
+  var dialog = new Dialog({
+    content: '设定`buttons`参数来添加脚注中的按钮',
+    title: '带按钮的窗口',
+    buttons: [{
+      text: '嘿嘿, 我是一个按钮',
+      part: 'big-button'
+    }, {
+      text: 'ok',
+      part: 'ok'
+    }]
+  })
+  .render()
+  .on('buttonclick', function (e) {
+    // e.part => big-button
+    this.hide();
+  });
+
+  $('#footer-buttons').on('click', $.proxy(dialog.show, dialog));
+});
+</script>
+
+<pre><code class="lang-js"><span class="keyword">var</span> dialog = <span class="keyword">new</span> Dialog({
+  content: <span class="string">'带按钮的窗口'</span>,
+  title: <span class="string">'带按钮的窗口'</span>,
+  footer: <span class="string">'&lt;button&gt;ok&lt;/button&gt;'</span>
+}).render().on(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> <span class="params">(e)</span> </span>{
+  <span class="keyword">if</span> ($(e.target).is(<span class="string">'button'</span>)) {
+    <span class="keyword">this</span>.hide();
+  }
+});
+
+$(<span class="string">'#footer'</span>).on(<span class="string">'click'</span>, $.proxy(dialog.show, dialog));
+</code></pre>
+<p>还可以通过设定<code>footer</code>的值, 来构建自定义脚注, 自行添加按钮</p>
+<div class="content">
+  <button id="footer">带按钮的窗口</button>
+</div>
+
+<script>
+require(['jquery', 'ui/Dialog'], function ($, Dialog) {
+  var dialog = new Dialog({
+    content: '带按钮的窗口',
+    title: '带按钮的窗口',
+    footer: '<button>ok</button>'
+  }).render().on('click', function (e) {
+    if ($(e.target).is('button')) {
+      this.hide();
+    }
+  });
+
+  $('#footer').on('click', $.proxy(dialog.show, dialog));
+});
+</script>
+
+<blockquote>
+<p>注意: <code>footer</code>与<code>buttons</code>的优先级. 如果, <code>footer</code>与<code>buttons</code>同时存在, 那么<code>footer</code>会覆盖<code>buttons</code>.</p>
+</blockquote>
+<p>是不是觉得自己拼<code>按钮</code>很麻烦呢? 来, 我们内置一些常用的带按钮的窗口~</p>
+<h2 id="-">内置的窗口们</h2>
+<pre><code class="lang-js"><span class="keyword">var</span> i = <span class="number">0</span>;
+
+$(<span class="string">'#alert-dialog'</span>).on(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> </span>{
+
+  <span class="keyword">var</span> me = <span class="keyword">this</span>;
+
+  Dialog.alert({
+    title: <span class="string">'WARNING'</span>,
+    content: <span class="string">'狼来啦, 大王快跑呀~!'</span>,
+    buttons: [{
+      text: <span class="string">'傻呀, 当然跑啊'</span>
+    }]
+  }).then(<span class="function"><span class="keyword">function</span> <span class="params">()</span> </span>{
+    me.innerHTML = <span class="string">'狼来啦~'</span> + (++i) + <span class="string">'次'</span>;
+  });
+
+});
+</code></pre>
+<h3 id="-dialog-alert-">警告窗口 <code>Dialog.alert()</code></h3>
+<div class="content">
+  <button id="alert-dialog">狼来啦~</button>
+</div>
+
+<script>
+require(['jquery', 'ui/Dialog'], function ($, Dialog) {
+
+  var i = 0;
+
+  $('#alert-dialog').on('click', function () {
+
+    var me = this;
+
+    Dialog.alert({
+      title: 'WARNING',
+      content: '狼来啦, 大王快跑呀~!',
+      buttons: [{
+        text: '傻呀, 当然跑啊'
+      }]
+    }).then(function () {
+      me.innerHTML = '狼来啦~' + (++i) + '次';
+    });
+
+  });
+
+});
+</script>
+
+<h3 id="-dialog-confirm-">确认窗口 <code>Dialog.confirm()</code></h3>
+<pre><code class="lang-js">$(<span class="string">'#confirm-dialog'</span>).on(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> </span>{
+
+  <span class="keyword">var</span> me = <span class="keyword">this</span>;
+
+  Dialog.confirm({
+    title: <span class="string">' '</span>, <span class="comment">// 小trick, 有标题, 但是没有字...</span>
+    content: <span class="string">'大王, 狼来了, 约吗? 啊不, 跑吗~!?'</span>,
+    buttons: [{
+      text: <span class="string">'约约约'</span>
+    }, {
+      text: <span class="string">'约你妹'</span>
+    }]
+  }).then(<span class="function"><span class="keyword">function</span> <span class="params">()</span> </span>{
+    me.innerHTML = <span class="string">'狼来啦~约了'</span> + (++i) + <span class="string">'次, 不约'</span> + j + <span class="string">'次'</span>;
+  }, <span class="function"><span class="keyword">function</span> <span class="params">()</span> </span>{
+    me.innerHTML = <span class="string">'狼来啦~约了'</span> + i + <span class="string">'次, 不约'</span> + (++j) + <span class="string">'次'</span>;
+  });
+
+});
+</code></pre>
+<div class="content">
+  <button id="confirm-dialog">狼来啦~</button>
+</div>
+
+<script>
+require(['jquery', 'ui/Dialog'], function ($, Dialog) {
+
+  var i = 0;
+  var j = 0;
+
+  $('#confirm-dialog').on('click', function () {
+
+    var me = this;
+
+    Dialog.confirm({
+      title: ' ', // 小trick, 有标题, 但是没有字...
+      content: '大王, 狼来了, 约吗? 啊不, 跑吗~!?',
+      buttons: [{
+        text: '约约约'
+      }, {
+        text: '约你妹'
+      }]
+    }).then(function () {
+      me.innerHTML = '狼来啦~约了' + (++i) + '次, 不约' + j + '次';
+    }, function () {
+      me.innerHTML = '狼来啦~约了' + i + '次, 不约' + (++j) + '次';
+    });
+
+  });
+
+});
+</script>
+
+<h3 id="-">内置的窗口们的特性</h3>
+<ol>
+<li><code>Dialog.alert()</code>和<code>Dialog.confirm()</code>会返回<code>promise</code>. 即这两个操作是异步的, 会返回预期结果. 用户只能在我们限定的选项中做出一个选择. 当<code>promise</code>被<code>resolved</code>或<code>rejected</code>, 会带有按钮的标识<code>part</code>.</li>
+<li>都是没有关闭按钮的. 原因是关闭按钮在这里是多余的. 关闭按钮在<code>alert</code>中表达的<code>确认</code>, 与<code>确认</code>按钮一致; 在<code>confirm</code>中表达的意图是<code>取消</code>, 与<code>取消</code>按钮一致. 因此, 关闭按钮是重复的, 不展现这个按钮. 这也与<code>window.alert()</code>和<code>window.confirm()</code>的交互相一致.</li>
+<li>都是会自毁的. 这与window.alert()和window.confirm()是一致的.</li>
+<li><code>Dialog.alert()</code>产生的窗口带有样式类<code>.skin-alert-dialog</code>, 也可以添加其他的<code>skin</code>来丰富样式效果.</li>
+<li><code>Dialog.confirm()</code>产生的窗口带有样式类<code>.skin-confirm-dialog</code>, 也可以添加其他的<code>skin</code>来丰富样式效果.</li>
+<li>点击<code>mask</code>不会关闭窗口, 原因与2一致.</li>
+</ol>
+</div>    </div>
+    <div id="dark-bg">
+        <div id="top-nav">
+            <ul id="lang-nav" class="ui-tabs" data-ctrl-context="default" data-ctrl-id="moye-8">
+                <li class="ui-tabs-item ui-tabs-item-first ui-tabs-active" data-index="0">js</li>
+                <li class="ui-tabs-item" data-index="1">html</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script>
+require(['jquery', 'ui/lib', 'ui/Tabs'], function ($, lib, Tabs) {
+    lib.fixed($('.nav')[0], {
+        top: 0,
+        left: 0,
+        bottom: 0
+    });
+
+    var tabs = [{
+        title: 'js'
+    }, {
+        title: 'html'
+    }];
+
+    new Tabs({
+        main: document.getElementById('lang-nav'),
+        tabs: tabs
+    }).render().on('change', function (e) {
+        switchCode(tabs[e.activeIndex].title);
+    });
+
+    function switchCode(title) {
+        $('pre code').each(function () {
+            var code = $(this);
+            var pre = code.parent();
+            if (code.hasClass('lang-' + title)) {
+                pre.show();
+            }
+            else {
+                pre.hide();
+            }
+        });
+    }
+});
+</script>
+</body>
+</html>

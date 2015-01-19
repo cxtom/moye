@@ -1,0 +1,2 @@
+/*! 2015 Baidu Inc. All Rights Reserved */
+define("ui/Helper",["require","jquery","./helper/dom","./helper/life","./helper/children","./helper/plugin"],function(require){function e(e){this.control=e}var t=require("jquery");return t.extend(e.prototype,require("./helper/dom"),require("./helper/life"),require("./helper/children"),require("./helper/plugin")),e});

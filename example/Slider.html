@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Slider - Moye</title>
+<link rel="stylesheet" href="./css/common.css" />
+<script src="./js/esl.js"></script>
+<script src="./js/jquery-1.10.2.min.js"></script>
+<script>
+require.config({ 'baseUrl': '../asset' });
+</script>
+<link rel="stylesheet" href="../asset/css/Slider.css">
+<style>
+  .content {
+    padding: 20px 0;
+  }
+  .ui-slider {
+    margin: 30px auto;
+  }
+
+</style>
+</head>
+<body>
+<div class="nav">
+    <a href="#" class="logo"><img src="./img/moye.png" alt=""></a>
+    <ul>
+        <li><a href="Button.html" class="">Button</a>
+        <li><a href="Calendar.html" class="">Calendar</a>
+        <li><a href="City.html" class="">City</a>
+        <li><a href="Dialog.html" class="">Dialog</a>
+        <li><a href="Pager.html" class="">Pager</a>
+        <li><a href="Slider.html" class="active">Slider</a>
+        <li><a href="Select.html" class="">Select</a>
+        <li><a href="Tabs.html" class="">Tabs</a>
+        <li><a href="TextBox.html" class="">TextBox</a>
+    </ul>
+</div>
+<div class="container">
+    <div id="main">
+<div class="markdown"><h1 id="slider-">Slider 轮播组件</h1>
+<pre><code class="lang-js"><span class="tag">new</span> <span class="tag">Slider</span>({
+    <span class="attribute">main</span>: document.<span class="function">getElementById</span>(<span class="string">'slider-container-default'</span>),
+    <span class="attribute">anim</span>: <span class="string">'slide'</span>,
+    <span class="attribute">auto</span>: false,
+    <span class="attribute">capacity</span>: <span class="number">4</span>
+})<span class="class">.render</span>();
+</code></pre>
+<pre><code class="lang-html">&lt;<span class="tag">div</span> id=<span class="string">"slider-container-default"</span> class=<span class="string">"ui-slider"</span>&gt;
+    &lt;<span class="tag">div</span> class=<span class="string">"ui-slider-stage"</span>&gt;
+        &lt;<span class="tag">img</span> src=<span class="string">"http://pic.hefei.cc/newcms/2012/03/14/13316929284f6005808aa20.jpg"</span>&gt;
+        &lt;<span class="tag">img</span> src=<span class="string">"http://pic.hefei.cc/newcms/2012/03/14/13316929274f60057f72733.jpg"</span>&gt;
+        &lt;<span class="tag">img</span> src=<span class="string">"http://pic.hefei.cc/newcms/2012/03/14/13316929284f60058013da9.jpg"</span>&gt;
+        &lt;<span class="tag">img</span> src=<span class="string">"http://pic.hefei.cc/newcms/2012/03/14/13316929294f600581a07e5.jpg"</span>&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+<div class="content">
+  <div id="slider-container-default" class="ui-slider">
+    <div class="ui-slider-stage"><img src="http://pic.hefei.cc/newcms/2012/03/14/13316929284f6005808aa20.jpg"><img src="http://pic.hefei.cc/newcms/2012/03/14/13316929274f60057f72733.jpg"><img src="http://pic.hefei.cc/newcms/2012/03/14/13316929284f60058013da9.jpg"><img src="http://pic.hefei.cc/newcms/2012/03/14/13316929294f600581a07e5.jpg"></div>
+  </div>
+</div>
+
+<script>
+require(['ui/Slider'], function (Slider) {
+    new Slider({
+        main: document.getElementById('slider-container-default'),
+        anim: 'slide',
+        auto: false,
+        capacity: 4
+    }).render();
+});
+</script>
+
+<h4 id="-">自动轮播</h4>
+<pre><code class="lang-html">&lt;<span class="tag">div</span> id=<span class="string">"auto-play"</span> class=<span class="string">"ui-slider"</span>&gt;
+    &lt;<span class="tag">div</span> class=<span class="string">"ui-slider-stage"</span>&gt;
+        &lt;<span class="tag">img</span> src=<span class="string">"http://pic.hefei.cc/newcms/2012/03/14/13316929284f6005808aa20.jpg"</span>&gt;
+        &lt;<span class="tag">img</span> src=<span class="string">"http://pic.hefei.cc/newcms/2012/03/14/13316929274f60057f72733.jpg"</span>&gt;
+        &lt;<span class="tag">img</span> src=<span class="string">"http://pic.hefei.cc/newcms/2012/03/14/13316929284f60058013da9.jpg"</span>&gt;
+        &lt;<span class="tag">img</span> src=<span class="string">"http://pic.hefei.cc/newcms/2012/03/14/13316929294f600581a07e5.jpg"</span>&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+<pre><code class="lang-js"><span class="tag">new</span> <span class="tag">Slider</span>({
+  <span class="attribute">main</span>: document.<span class="function">getElementById</span>(<span class="string">'auto-play'</span>),
+  <span class="attribute">anim</span>: <span class="string">'slide'</span>,
+  <span class="attribute">auto</span>: true,
+  <span class="attribute">capacity</span>: <span class="number">4</span>
+})<span class="class">.render</span>();
+</code></pre>
+<p>设置参数<code>auto</code>为<code>true</code>, 控件会在完成<code>render</code>后开始<code>播放</code>, 即开始轮播.</p>
+<p>或者调用<code>slider.play()</code>/<code>slider.stop()</code>来开始/暂停播放</p>
+<div class="content">
+    <div id="auto-play" class="ui-slider">
+        <div class="ui-slider-stage">
+            <img src="http://pic.hefei.cc/newcms/2012/03/14/13316929284f6005808aa20.jpg"><img src="http://pic.hefei.cc/newcms/2012/03/14/13316929274f60057f72733.jpg"><img src="http://pic.hefei.cc/newcms/2012/03/14/13316929284f60058013da9.jpg"><img src="http://pic.hefei.cc/newcms/2012/03/14/13316929294f600581a07e5.jpg"></div>
+        </div>
+</div>
+
+<script>
+require(['ui/Slider'], function (Slider) {
+    new Slider({
+        main: document.getElementById('auto-play'),
+        anim: 'slide',
+        auto: true,
+        capacity: 4
+    }).render();
+});
+</script>
+
+<h2 id="-">各种切换动画效果</h2>
+<h3 id="-slide-">滑动(slide)垂直方向切换</h3>
+<pre><code class="lang-html">&lt;<span class="tag">div</span> id=<span class="string">"vertical"</span> class=<span class="string">"ui-slider"</span>&gt;
+    &lt;<span class="tag">div</span> class=<span class="string">"ui-slider-stage"</span>&gt;
+        &lt;<span class="tag">img</span> src=<span class="string">"http://pic.hefei.cc/newcms/2012/03/14/13316929284f6005808aa20.jpg"</span>&gt;
+        &lt;<span class="tag">img</span> src=<span class="string">"http://pic.hefei.cc/newcms/2012/03/14/13316929274f60057f72733.jpg"</span>&gt;
+        &lt;<span class="tag">img</span> src=<span class="string">"http://pic.hefei.cc/newcms/2012/03/14/13316929284f60058013da9.jpg"</span>&gt;
+        &lt;<span class="tag">img</span> src=<span class="string">"http://pic.hefei.cc/newcms/2012/03/14/13316929294f600581a07e5.jpg"</span>&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+<pre><code class="lang-js"><span class="tag">new</span> <span class="tag">Slider</span>(<span class="rules">{
+  <span class="rule"><span class="attribute">main</span>:<span class="value"> document.<span class="function">getElementById</span>(<span class="string">'vertical'</span>),
+  anim: <span class="string">'slide'</span>,
+  auto: true,
+  animOptions: {
+    direction: <span class="string">'vertical'</span>
+  </span></span></span>},
+  <span class="tag">capacity</span>: 4
+})<span class="class">.render</span>();
+</code></pre>
+<div class="content">
+    <div id="vertical" class="ui-slider">
+        <div class="ui-slider-stage">
+            <img src="http://pic.hefei.cc/newcms/2012/03/14/13316929284f6005808aa20.jpg"><img src="http://pic.hefei.cc/newcms/2012/03/14/13316929274f60057f72733.jpg"><img src="http://pic.hefei.cc/newcms/2012/03/14/13316929284f60058013da9.jpg"><img src="http://pic.hefei.cc/newcms/2012/03/14/13316929294f600581a07e5.jpg"></div>
+    </div>
+</div>
+
+<script>
+require(['ui/Slider'], function (Slider) {
+  new Slider({
+    main: document.getElementById('vertical'),
+    anim: 'slide',
+    auto: true,
+    animOptions: {
+      direction: 'vertical'
+    },
+    capacity: 4
+  }).render();
+});
+</script>
+
+<h3 id="-">透明渐变</h3>
+<pre><code class="lang-html">&lt;<span class="tag">div</span> id=<span class="string">"opacity"</span> class=<span class="string">"ui-slider"</span>&gt;
+    &lt;<span class="tag">div</span> class=<span class="string">"ui-slider-stage"</span>&gt;
+        &lt;<span class="tag">img</span> src=<span class="string">"http://pic.hefei.cc/newcms/2012/03/14/13316929284f6005808aa20.jpg"</span>&gt;
+        &lt;<span class="tag">img</span> src=<span class="string">"http://pic.hefei.cc/newcms/2012/03/14/13316929274f60057f72733.jpg"</span>&gt;
+        &lt;<span class="tag">img</span> src=<span class="string">"http://pic.hefei.cc/newcms/2012/03/14/13316929284f60058013da9.jpg"</span>&gt;
+        &lt;<span class="tag">img</span> src=<span class="string">"http://pic.hefei.cc/newcms/2012/03/14/13316929294f600581a07e5.jpg"</span>&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+<pre><code class="lang-js"><span class="tag">new</span> <span class="tag">Slider</span>({
+  <span class="attribute">main</span>: document.<span class="function">getElementById</span>(<span class="string">'opacity'</span>),
+  <span class="attribute">anim</span>: <span class="string">'opacity'</span>,
+  <span class="attribute">auto</span>: true,
+  <span class="attribute">capacity</span>: <span class="number">4</span>
+})<span class="class">.render</span>();
+</code></pre>
+<div class="content">
+  <div id="opacity" class="ui-slider">
+    <div class="ui-slider-stage">
+      <img src="http://pic.hefei.cc/newcms/2012/03/14/13316929284f6005808aa20.jpg"><img src="http://pic.hefei.cc/newcms/2012/03/14/13316929274f60057f72733.jpg"><img src="http://pic.hefei.cc/newcms/2012/03/14/13316929284f60058013da9.jpg"><img src="http://pic.hefei.cc/newcms/2012/03/14/13316929294f600581a07e5.jpg"></div>
+  </div>
+</div>
+
+<script>
+require(['ui/Slider'], function (Slider) {
+  new Slider({
+    main: document.getElementById('opacity'),
+    anim: 'opacity',
+    auto: true,
+    capacity: 4
+  }).render();
+});
+</script>
+
+</div>    </div>
+    <div id="dark-bg">
+        <div id="top-nav">
+            <ul id="lang-nav" class="ui-tabs" data-ctrl-context="default" data-ctrl-id="moye-8">
+                <li class="ui-tabs-item ui-tabs-item-first ui-tabs-active" data-index="0">js</li>
+                <li class="ui-tabs-item" data-index="1">html</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script>
+require(['jquery', 'ui/lib', 'ui/Tabs'], function ($, lib, Tabs) {
+    lib.fixed($('.nav')[0], {
+        top: 0,
+        left: 0,
+        bottom: 0
+    });
+
+    var tabs = [{
+        title: 'js'
+    }, {
+        title: 'html'
+    }];
+
+    new Tabs({
+        main: document.getElementById('lang-nav'),
+        tabs: tabs
+    }).render().on('change', function (e) {
+        switchCode(tabs[e.activeIndex].title);
+    });
+
+    function switchCode(title) {
+        $('pre code').each(function () {
+            var code = $(this);
+            var pre = code.parent();
+            if (code.hasClass('lang-' + title)) {
+                pre.show();
+            }
+            else {
+                pre.hide();
+            }
+        });
+    }
+});
+</script>
+</body>
+</html>

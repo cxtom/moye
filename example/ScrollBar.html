@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>ScrollBar - Moye</title>
+<link rel="stylesheet" href="./css/common.css" />
+<script src="./js/esl.js"></script>
+<script src="./js/jquery-1.10.2.min.js"></script>
+<script>
+require.config({ 'baseUrl': '../asset' });
+</script>
+<link rel="stylesheet" href="../asset/css/ScrollBar.css">
+<style>
+img {
+    width: 270px;
+    height: 129px;
+}
+</style>
+
+</head>
+<body>
+<div class="nav">
+    <a href="#" class="logo"><img src="./img/moye.png" alt=""></a>
+    <ul>
+        <li><a href="Button.html" class="">Button</a>
+        <li><a href="Calendar.html" class="">Calendar</a>
+        <li><a href="City.html" class="">City</a>
+        <li><a href="Dialog.html" class="">Dialog</a>
+        <li><a href="Pager.html" class="">Pager</a>
+        <li><a href="Slider.html" class="">Slider</a>
+        <li><a href="Select.html" class="">Select</a>
+        <li><a href="Tabs.html" class="">Tabs</a>
+        <li><a href="TextBox.html" class="">TextBox</a>
+    </ul>
+</div>
+<div class="container">
+    <div id="main">
+<div class="markdown"><h1 id="scrollbar-">ScrollBar 滚动条</h1>
+<h2 id="-">示例：纵向滚动条</h2>
+</div><div class="content">
+  <div id="scrollbar" class="ecl-ui-scrollbar ecl-ui-scrollbar-position-mode">
+    <div class="ecl-ui-scrollbar-track">
+      <i id="ecl-ui-scrollbar-thumb" class="ecl-ui-scrollbar-thumb"></i>
+    </div>
+    <div class="ecl-ui-scrollbar-panel">
+      <div style="background:#CCC">
+      <div id="ecl-ui-scrollbar-main" class="ecl-ui-scrollbar-main">
+        <div style="background:#CCC">
+          <p>猪!你的鼻子有两个孔,感冒时的你还挂着鼻涕牛牛. </p>
+          <p>猪!你有着黑漆漆的眼,望呀望呀望也看不到边. </p>
+          <p>猪!你的耳朵是那么大,呼扇呼扇也听不到我在骂你傻. </p>
+          <p>猪!你的尾巴是卷又卷,原来跑跑跳跳还离不开它 </p>
+          <p>哦~~~ </p>
+          <p>猪头猪脑猪身猪尾(yi)巴 </p>
+          <p>从来不挑食的乖娃娃 </p>
+          <p>每天睡到日晒三杆后 </p>
+          <p>从不刷牙从不打架 </p>
+          <p>猪!你的肚子是那么鼓,一看就知道受不了生活的苦 </p>
+          <p>猪!你的皮肤是那么白,上辈子一定投在那富贵人家 </p>
+          <p>哦~~~ </p>
+          <p>传说你的祖先有八钉耙,算命先生说他命中犯桃花 </p>
+          <p>见到漂亮姑娘就嘻嘻哈哈 </p>
+          <p>不会脸红不会害怕 </p>
+          <p>猪头猪脑猪身猪尾(yi)巴 </p>
+          <p>从来不挑食的乖娃娃 </p>
+          <p>每天睡到日晒三杆后 </p>
+          <p>从不刷牙从不打架哦~~~ </p>
+          <p>传说你的祖先有八钉耙,算命先生说他命中犯桃花 </p>
+          <p>见到漂亮姑娘就嘻嘻哈哈 </p>
+          <p>不会脸红不会害怕 </p>
+          <p>你很象她</p>
+          <p>从不刷牙从不打架 </p>
+          <p>猪!你的肚子是那么鼓,一看就知道受不了生活的苦 </p>
+          <p>猪!你的皮肤是那么白,上辈子一定投在那富贵人家 </p>
+          <p>哦~~~ </p>
+          <p>传说你的祖先有八钉耙,算命先生说他命中犯桃花 </p>
+          <p>见到漂亮姑娘就嘻嘻哈哈 </p>
+          <p>不会脸红不会害怕 </p>
+          <p>猪头猪脑猪身猪尾(yi)巴 </p>
+          <p>从来不挑食的乖娃娃 </p>
+          <p>每天睡到日晒三杆后 </p>
+          <p>从不刷牙从不打架哦~~~ </p>
+          <p>传说你的祖先有八钉耙,算命先生说他命中犯桃花 </p>
+          <p>见到漂亮姑娘就嘻嘻哈哈 </p>
+          <p>不会脸红不会害怕 </p>
+          <p>你很象她</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<div class="content">
+  <button id="scrollToBegin">滚动到开头</button>
+  <button id="scrollToEnd">滚动到结尾</button>
+  <button id="scrollToMid">滚动到中间</button>
+</div>
+
+<div class="markdown"><pre><code class="lang-js"><span class="built_in">require</span>([<span class="string">'ui/lib'</span>, <span class="string">'ui/ScrollBar'</span>, <span class="string">'jquery'</span>], <span class="function"><span class="keyword">function</span> <span class="params">(lib, ScrollBar, $)</span> </span>{
+  <span class="keyword">var</span> scrollbar = <span class="keyword">new</span> ScrollBar({
+    main: <span class="string">'scrollbar'</span>,
+    disabled: <span class="number">0</span>,
+    mode: <span class="string">'position'</span>
+  })
+  scrollbar.render();
+
+  $(<span class="string">'#scrollToBegin'</span>).on(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> </span>{
+    scrollbar.scrollTo(<span class="string">'begin'</span>);
+  });
+
+  $(<span class="string">'#scrollToEnd'</span>).on(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> </span>{
+    scrollbar.scrollTo(<span class="string">'end'</span>);
+  });
+
+  $(<span class="string">'#scrollToMid'</span>).on(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> </span>{
+    scrollbar.scrollTo(<span class="number">0.5</span>);
+  });
+
+});
+</code></pre>
+<h2 id="-">横向滚动条</h2>
+</div>
+<div class="content">
+  <div id="ecl-ui-scrollbar-horizontal" class="ecl-ui-scrollbar ecl-ui-scrollbar-horizontal">
+    <div class="ecl-ui-scrollbar-panel">
+      <div id="ecl-ui-scrollbar-main1" style="white-space:nowrap">
+        <div style="background:#CCC">
+          猪!你的鼻子有两个孔,感冒时的你还挂着鼻涕牛牛. 
+          猪!你有着黑漆漆的眼,望呀望呀望也看不到边. 
+          猪!你的耳朵是那么大,呼扇呼扇也听不到我在骂你傻. 
+          猪!你的尾巴是卷又卷,原来跑跑跳跳还离不开它 
+          哦~~~ 
+        </div>
+        <div>
+          猪!你的鼻子有两个孔,感冒时的你还挂着鼻涕牛牛. 
+          猪!你有着黑漆漆的眼,望呀望呀望也看不到边. 
+          猪!你的耳朵是那么大,呼扇呼扇也听不到我在骂你傻. 
+          猪!你的尾巴是卷又卷,原来跑跑跳跳还离不开它 
+          哦~~~ 
+       </p>
+       </div>
+      </div>
+    </div>
+    <div class="ecl-ui-scrollbar-track">
+      <i id="ecl-ui-scrollbar-thumb1" class="ecl-ui-scrollbar-thumb"></i>
+    </div>
+  </div>
+</div>
+
+<div class="markdown"><p>require([&#39;ui/lib&#39;, &#39;ui/ScrollBar&#39;, &#39;jquery&#39;], function (lib, ScrollBar, $) {
+  new ScrollBar({
+    main: $(&#39;#ecl-ui-scrollbar-horizontal&#39;)[0],
+    direction: &#39;horizontal&#39;
+  }).render();
+});</p>
+</div>    </div>
+    <div id="dark-bg">
+        <div id="top-nav">
+            <ul id="lang-nav" class="ui-tabs" data-ctrl-context="default" data-ctrl-id="moye-8">
+                <li class="ui-tabs-item ui-tabs-item-first ui-tabs-active" data-index="0">js</li>
+                <li class="ui-tabs-item" data-index="1">html</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script>
+require(['jquery', 'ui/lib', 'ui/Tabs'], function ($, lib, Tabs) {
+    lib.fixed($('.nav')[0], {
+        top: 0,
+        left: 0,
+        bottom: 0
+    });
+
+    var tabs = [{
+        title: 'js'
+    }, {
+        title: 'html'
+    }];
+
+    new Tabs({
+        main: document.getElementById('lang-nav'),
+        tabs: tabs
+    }).render().on('change', function (e) {
+        switchCode(tabs[e.activeIndex].title);
+    });
+
+    function switchCode(title) {
+        $('pre code').each(function () {
+            var code = $(this);
+            var pre = code.parent();
+            if (code.hasClass('lang-' + title)) {
+                pre.show();
+            }
+            else {
+                pre.hide();
+            }
+        });
+    }
+});
+</script>
+<script>
+require(['ui/lib', 'ui/ScrollBar', 'jquery'], function (lib, ScrollBar, $) {
+  var scrollbar = new ScrollBar({
+    main: 'scrollbar',
+    disabled: 0,
+    mode: 'position'
+  });
+  
+  scrollbar.render();
+
+  $('#scrollToBegin').on('click', function () {
+    scrollbar.scrollTo('begin');
+  });
+
+  $('#scrollToEnd').on('click', function () {
+    scrollbar.scrollTo('end');
+  });
+
+  $('#scrollToMid').on('click', function () {
+    scrollbar.scrollTo(0.5);
+  });
+
+  new ScrollBar({
+    main: $('#ecl-ui-scrollbar-horizontal')[0],
+    direction: 'horizontal'
+  }).render();
+
+});
+</script>
+</body>
+</html>

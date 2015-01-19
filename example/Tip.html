@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Tip - Moye</title>
+<link rel="stylesheet" href="./css/common.css" />
+<script src="./js/esl.js"></script>
+<script src="./js/jquery-1.10.2.min.js"></script>
+<script>
+require.config({ 'baseUrl': '../asset' });
+</script>
+<link rel="stylesheet" href="../asset/css/Tip.css">
+<style>
+.tooltips {
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+    width: 98px;
+    height: 98px;
+    vertical-align: top;
+    line-height: 98px;
+    text-align: center;
+    background-color: #418CE5;
+    border: 1px dashed #c1d5ea;
+    margin-left: 40px;
+    margin-bottom: 20px;
+}
+
+.tooltips-first {
+    margin-left: 0;
+}
+.content i {
+    position: absolute;
+}
+#example {
+    position: relative;
+    height: 400px;
+}
+#cube {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin: -100px;
+    width: 200px;
+    height: 200px;
+    line-height: 200px;
+    background: #418CE5;
+    z-index: 2
+}
+</style>
+</head>
+<body>
+<div class="nav">
+    <a href="#" class="logo"><img src="./img/moye.png" alt=""></a>
+    <ul>
+        <li><a href="Button.html" class="">Button</a>
+        <li><a href="Calendar.html" class="">Calendar</a>
+        <li><a href="City.html" class="">City</a>
+        <li><a href="Dialog.html" class="">Dialog</a>
+        <li><a href="Pager.html" class="">Pager</a>
+        <li><a href="Slider.html" class="">Slider</a>
+        <li><a href="Select.html" class="">Select</a>
+        <li><a href="Tabs.html" class="">Tabs</a>
+        <li><a href="TextBox.html" class="">TextBox</a>
+    </ul>
+</div>
+<div class="container">
+    <div id="main">
+<div class="markdown"><h1 id="tip-">Tip 打分组件</h1>
+<h3 id="demo">DEMO</h3>
+<hr>
+</div><div class="content"></div>
+<div class="markdown"><h3 id="-">源码</h3>
+<hr>
+<pre><code class="lang-html">&lt;<span class="keyword">div</span> <span class="type">class</span>=<span class="string">"content"</span>&gt;
+    &lt;<span class="keyword">div</span> <span class="type">class</span>=<span class="string">"ecl-ui-rating"</span> <span class="property">id</span>=<span class="string">"rating"</span>&gt;&lt;/<span class="keyword">div</span>&gt;
+&lt;/<span class="keyword">div</span>&gt;
+</code></pre>
+<pre><code class="lang-js"><span class="keyword">var</span> tip = <span class="keyword">new</span> Tip({
+    arrow: <span class="string">'1'</span>,
+    hideDelay: <span class="number">1</span>,
+    offset: { x: <span class="number">5</span>, y: <span class="number">5</span>},
+    onBeforeShow: <span class="function"><span class="keyword">function</span> <span class="params">()</span> </span>{
+      <span class="keyword">this</span>.title = <span class="built_in">Math</span>.random();
+    }
+}).render();
+</code></pre>
+<h3 id="-">方位关系</h3>
+</div><div id="example">
+    <div id="cube" class="tooltips" data-tooltips="lc" onclick="">单击切换模式:lc</div>
+</div>
+
+    </div>
+    <div id="dark-bg">
+        <div id="top-nav">
+            <ul id="lang-nav" class="ui-tabs" data-ctrl-context="default" data-ctrl-id="moye-8">
+                <li class="ui-tabs-item ui-tabs-item-first ui-tabs-active" data-index="0">js</li>
+                <li class="ui-tabs-item" data-index="1">html</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script>
+require(['jquery', 'ui/lib', 'ui/Tabs'], function ($, lib, Tabs) {
+    lib.fixed($('.nav')[0], {
+        top: 0,
+        left: 0,
+        bottom: 0
+    });
+
+    var tabs = [{
+        title: 'js'
+    }, {
+        title: 'html'
+    }];
+
+    new Tabs({
+        main: document.getElementById('lang-nav'),
+        tabs: tabs
+    }).render().on('change', function (e) {
+        switchCode(tabs[e.activeIndex].title);
+    });
+
+    function switchCode(title) {
+        $('pre code').each(function () {
+            var code = $(this);
+            var pre = code.parent();
+            if (code.hasClass('lang-' + title)) {
+                pre.show();
+            }
+            else {
+                pre.hide();
+            }
+        });
+    }
+});
+</script>
+<script>
+require(['ui/Tip'], function (Tip) {
+
+    var $ = require('jquery');
+    var content = $('.content');
+
+    for(var i = 0; i < 5; i++) {
+        for(var j = 0; j < 6; j++) {
+            $('<div>')
+                .addClass(['tooltips', j === 0 ? 'tooltips-first' : ''].join(' '))
+                .text('自动定位')
+                .appendTo(content);
+        }
+    }
+
+    var tip = new Tip({
+        arrow: '1',
+        hideDelay: 1,
+        offset: { x: 0, y: 5},
+        onBeforeShow: function () {
+          this.title = Math.random();
+        }
+    }).render();
+
+    var arrow = {
+        tl: 'tc', 
+        tc: 'tr', 
+        tr: 'rt', 
+        rt: 'rc', 
+        rc: 'rb', 
+        rb: 'br', 
+        br: 'bc', 
+        bc: 'bl', 
+        bl: 'lb', 
+        lb: 'lc', 
+        lc: 'lt', 
+        lt: 'tl'
+    };
+
+    $('#cube').on('click', function () {
+        var $this = $(this);
+        var direction = arrow[$this.attr('data-tooltips')];
+        $this.attr('data-tooltips', direction).text('单击切换模式:' + direction);
+    });
+
+});
+
+</script></body>
+</html>

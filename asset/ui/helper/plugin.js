@@ -1,0 +1,2 @@
+/*! 2015 Baidu Inc. All Rights Reserved */
+define("ui/helper/plugin",["require"],function(){return{initPlugins:function(){var e=this.control,t=e.plugins;if(t&&t.length)for(var n=0,i=t.length;i>n;n++)t[n].activate(e)},activatePlugins:function(){for(var e=this.control.plugins,t=e.length-1;t>=0;t--)e[t].activate()},inactivatePlugins:function(){for(var e=this.control.plugins,t=e.length-1;t>=0;t--)e[t].inactivate()},disposePlugins:function(){for(var e=this.control,t=e.plugins,n=t.length-1;n>=0;n--)t[n].dispose();e.plugins=[]}}});

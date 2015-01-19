@@ -1,0 +1,2 @@
+/*! 2015 Baidu Inc. All Rights Reserved */
+define("ui/lib/page",["require"],function(){function e(e){var t=e&&e.ownerDocument||document,n=t.compatMode;return!n||"CSS1Compat"===n?t.documentElement:t.body}return{getScrollLeft:function(){return window.pageXOffset||e().scrollLeft},getScrollTop:function(){return window.pageYOffset||e().scrollTop},getViewWidth:function(){return e().clientWidth},getViewHeight:function(){return e().clientHeight}}});

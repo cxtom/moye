@@ -1,0 +1,2 @@
+/*! 2015 Baidu Inc. All Rights Reserved */
+define("ui/Panel",["require","./Control","./painter"],function(require){var t=require("./Control"),e=require("./painter"),n=t.extend({type:"Panel",repaint:e.createRepaint(t.prototype.repaint,{name:"content",paint:function(t,e){var n=this.helper;if(null!=e)n.disposeChildren(),this.main.innerHTML=e;n.initChildren()}}),enable:function(){this.$parent(),this.helper.enableChildren()},disable:function(){this.$parent(),this.helper.disableChildren()}});return n});

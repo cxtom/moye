@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Select - Moye</title>
+<link rel="stylesheet" href="./css/common.css" />
+<script src="./js/esl.js"></script>
+<script src="./js/jquery-1.10.2.min.js"></script>
+<script>
+require.config({ 'baseUrl': '../asset' });
+</script>
+<link rel="stylesheet" href="../asset/css/Select.css" >
+</head>
+<body>
+<div class="nav">
+    <a href="#" class="logo"><img src="./img/moye.png" alt=""></a>
+    <ul>
+        <li><a href="Button.html" class="">Button</a>
+        <li><a href="Calendar.html" class="">Calendar</a>
+        <li><a href="City.html" class="">City</a>
+        <li><a href="Dialog.html" class="">Dialog</a>
+        <li><a href="Pager.html" class="">Pager</a>
+        <li><a href="Slider.html" class="">Slider</a>
+        <li><a href="Select.html" class="active">Select</a>
+        <li><a href="Tabs.html" class="">Tabs</a>
+        <li><a href="TextBox.html" class="">TextBox</a>
+    </ul>
+</div>
+<div class="container">
+    <div id="main">
+<div class="markdown"><h1 id="select">Select</h1>
+<pre><code class="lang-html">&lt;<span class="keyword">div</span>&gt;筛选：&lt;<span class="keyword">div</span> <span class="property">id</span>=<span class="string">"cycle"</span> <span class="type">class</span>=<span class="string">"ui-select"</span>&gt;&lt;/<span class="keyword">div</span>&gt;&lt;/<span class="keyword">div</span>&gt;
+</code></pre>
+<pre><code class="lang-js"><span class="tag">new</span> <span class="tag">Select</span>(<span class="rules">{
+  <span class="rule"><span class="attribute">main</span>:<span class="value"> document.<span class="function">getElementById</span>(<span class="string">'cycle'</span>),
+  datasource: [
+    {value: <span class="number">0</span>, name: <span class="string">'不限'</span></span></span></span>},
+    <span class="rules">{<span class="rule"><span class="attribute">value</span>:<span class="value"> <span class="number">1</span>, name: <span class="string">'中关村、上地'</span></span></span></span>},
+    <span class="rules">{<span class="rule"><span class="attribute">value</span>:<span class="value"> <span class="number">2</span>, name: <span class="string">'公主坟商圈'</span></span></span></span>},
+    <span class="rules">{<span class="rule"><span class="attribute">value</span>:<span class="value"> <span class="number">3</span>, name: <span class="string">'劲松潘家园'</span></span></span></span>},
+    <span class="rules">{<span class="rule"><span class="attribute">value</span>:<span class="value"> <span class="number">4</span>, name: <span class="string">'亚运村'</span></span></span></span>},
+    <span class="rules">{<span class="rule"><span class="attribute">value</span>:<span class="value"> <span class="number">5</span>, name: <span class="string">'北京南站商圈超长'</span></span></span></span>}
+  ]
+})<span class="class">.render</span>();
+</code></pre>
+<div class="content">
+  <div id='content_left'>
+    <div class="result-op" srcid="16873" id="1" mu="http://baike.baidu.com/view/1758.htm" data-op="{'y':'FD9FFD6B'}">
+      <div>筛选：<div id="cycle" class="ui-select"></div></div>
+    </div>
+  </div>
+</div>
+
+<script>
+require(['ui/Select'], function (Select) {
+
+  new Select({
+    main: document.getElementById('cycle'),
+    datasource: [
+      {value: 0, name: '不限'},
+      {value: 1, name: '中关村、上地'},
+      {value: 2, name: '公主坟商圈'},
+      {value: 3, name: '劲松潘家园'},
+      {value: 4, name: '亚运村'},
+      {value: 5, name: '北京南站商圈超长'}
+    ]
+  }).render();
+
+});
+</script>
+
+</div>    </div>
+    <div id="dark-bg">
+        <div id="top-nav">
+            <ul id="lang-nav" class="ui-tabs" data-ctrl-context="default" data-ctrl-id="moye-8">
+                <li class="ui-tabs-item ui-tabs-item-first ui-tabs-active" data-index="0">js</li>
+                <li class="ui-tabs-item" data-index="1">html</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script>
+require(['jquery', 'ui/lib', 'ui/Tabs'], function ($, lib, Tabs) {
+    lib.fixed($('.nav')[0], {
+        top: 0,
+        left: 0,
+        bottom: 0
+    });
+
+    var tabs = [{
+        title: 'js'
+    }, {
+        title: 'html'
+    }];
+
+    new Tabs({
+        main: document.getElementById('lang-nav'),
+        tabs: tabs
+    }).render().on('change', function (e) {
+        switchCode(tabs[e.activeIndex].title);
+    });
+
+    function switchCode(title) {
+        $('pre code').each(function () {
+            var code = $(this);
+            var pre = code.parent();
+            if (code.hasClass('lang-' + title)) {
+                pre.show();
+            }
+            else {
+                pre.hide();
+            }
+        });
+    }
+});
+</script>
+</body>
+</html>

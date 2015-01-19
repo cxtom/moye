@@ -1,0 +1,2 @@
+/*! 2015 Baidu Inc. All Rights Reserved */
+define("ui/lib/string",["require","jquery"],function(require){var e=require("jquery");return{guid:function(){var e="moye",t=0;return function(){return e+"-"+t++}}(),capitalize:function(e){return String(e).replace(/\b[a-z]/g,function(e){return e.toUpperCase()})},contains:function(t,n,i){return i=i||" ",t=i+t+i,n=i+e.trim(n)+i,t.indexOf(n)>-1},pad:function(e,t){var n=0>e?"-":"",i=Math.abs(parseInt(e,10))+"",r=i.length;if(t=+t||2,t>r)i=(1<<t-r).toString(2).slice(1)+i;return n+i}}});

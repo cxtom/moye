@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Button - Moye</title>
+<link rel="stylesheet" href="./css/common.css" />
+<script src="./js/esl.js"></script>
+<script src="./js/jquery-1.10.2.min.js"></script>
+<script>
+require.config({ 'baseUrl': '../asset' });
+</script>
+<link rel="stylesheet" href="../asset/css/Button.css">
+
+</head>
+<body>
+<div class="nav">
+    <a href="#" class="logo"><img src="./img/moye.png" alt=""></a>
+    <ul>
+        <li><a href="Button.html" class="active">Button</a>
+        <li><a href="Calendar.html" class="">Calendar</a>
+        <li><a href="City.html" class="">City</a>
+        <li><a href="Dialog.html" class="">Dialog</a>
+        <li><a href="Pager.html" class="">Pager</a>
+        <li><a href="Slider.html" class="">Slider</a>
+        <li><a href="Select.html" class="">Select</a>
+        <li><a href="Tabs.html" class="">Tabs</a>
+        <li><a href="TextBox.html" class="">TextBox</a>
+    </ul>
+</div>
+<div class="container">
+    <div id="main">
+<div class="markdown"><h1 id="-">按钮</h1>
+<h4 id="-">普通青年</h4>
+<pre><code class="lang-js"><span class="built_in">require</span>([<span class="string">'jquery'</span>, <span class="string">'ui/Button'</span>], <span class="function"><span class="keyword">function</span> <span class="params">($, Button)</span> </span>{
+    <span class="keyword">new</span> Button({
+        main: <span class="built_in">document</span>.getElementById(<span class="string">'button1'</span>)
+    })
+    .render();
+});
+</code></pre>
+<p><div class="content">
+    <button id="button1">ok</button>
+</div></p>
+<script>
+require(['jquery', 'ui/Button'], function ($, Button) {
+    new Button({
+        main: document.getElementById('button1')
+    })
+    .render();
+});
+</script>
+
+<h4 id="-">参数配置</h4>
+<pre><code class="lang-js"><span class="tag">require</span>([<span class="string">'jquery'</span>, <span class="string">'ui/Button'</span>], function ($, Button) {
+    <span class="tag">new</span> <span class="tag">Button</span>({
+        <span class="attribute">main</span>: document.<span class="function">getElementById</span>(<span class="string">'button2'</span>),
+        <span class="attribute">width</span>: <span class="string">'100px'</span>,
+        <span class="attribute">height</span>: <span class="string">'61.8px'</span>,
+        <span class="attribute">text</span>: <span class="string">'hello world~'</span>
+    })
+    <span class="class">.render</span>();
+});
+</code></pre>
+<p><div class="content">
+    <button id="button2">ok</button>
+</div></p>
+<script>
+require(['jquery', 'ui/Button'], function ($, Button) {
+    new Button({
+        main: document.getElementById('button2'),
+        width: '100px',
+        height: '61.8px',
+        text: 'hello world~'
+    })
+    .render();
+});
+</script>
+
+<h4 id="-">事件绑定</h4>
+<pre><code class="lang-js"><span class="built_in">require</span>([<span class="string">'jquery'</span>, <span class="string">'ui/Button'</span>], <span class="function"><span class="keyword">function</span> <span class="params">($, Button)</span> </span>{
+
+    <span class="keyword">var</span> i = <span class="number">0</span>;
+
+    <span class="keyword">new</span> Button({
+        main: <span class="built_in">document</span>.getElementById(<span class="string">'button3'</span>),
+        text: <span class="string">'赞'</span>
+    })
+    .render()
+    .on(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> <span class="params">(e)</span> </span>{
+        <span class="keyword">this</span>.setText(<span class="string">'+'</span> + (++i));
+    });
+
+});
+</code></pre>
+<p><div class="content">
+    <button id="button3">ok</button>
+</div></p>
+<script>
+require(['jquery', 'ui/Button'], function ($, Button) {
+
+    var i = 0;
+
+    new Button({
+        main: document.getElementById('button3'),
+        text: '赞'
+    })
+    .render()
+    .on('click', function (e) {
+        this.setText('+' + (++i));
+    });
+
+});
+</script>
+
+
+<h4 id="-a-">应用于<code>&lt;a&gt;</code>标签</h4>
+<pre><code class="lang-js"><span class="built_in">require</span>([<span class="string">'jquery'</span>, <span class="string">'ui/Button'</span>], <span class="function"><span class="keyword">function</span> <span class="params">($, Button)</span> </span>{
+
+    <span class="keyword">new</span> Button({
+        main: <span class="built_in">document</span>.getElementById(<span class="string">'button4'</span>)
+    })
+    .render();
+
+});
+</code></pre>
+<p><div class="content">
+    <a id="button4" href="http://www.baidu.com" target="_blank">其实，我是一个链接~</a>
+</div></p>
+<script>
+require(['jquery', 'ui/Button'], function ($, Button) {
+
+    new Button({
+        main: document.getElementById('button4')
+    })
+    .render();
+
+});
+</script>
+
+
+<h4 id="-">禁用状态</h4>
+<pre><code class="lang-js"><span class="built_in">require</span>([<span class="string">'jquery'</span>, <span class="string">'ui/Button'</span>], <span class="function"><span class="keyword">function</span> <span class="params">($, Button)</span> </span>{
+
+    <span class="keyword">new</span> Button({
+        main: <span class="built_in">document</span>.getElementById(<span class="string">'button5'</span>),
+        disabled: <span class="literal">true</span>
+    })
+    .render()
+    .on(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> </span>{
+        <span class="built_in">console</span>.log(<span class="string">'如果这里被调用就出错了哟~'</span>);
+    });
+
+});
+</code></pre>
+<p><div class="content">
+    <button id="button5" type="submit">不许动</button>
+</div></p>
+<script>
+require(['jquery', 'ui/Button'], function ($, Button) {
+
+    new Button({
+        main: document.getElementById('button5'),
+        disabled: true
+    })
+    .render()
+    .on('click', function () {
+        console.log('如果这里被调用就出错了哟~');
+    });
+
+});
+</script>
+
+</div>    </div>
+    <div id="dark-bg">
+        <div id="top-nav">
+            <ul id="lang-nav" class="ui-tabs" data-ctrl-context="default" data-ctrl-id="moye-8">
+                <li class="ui-tabs-item ui-tabs-item-first ui-tabs-active" data-index="0">js</li>
+                <li class="ui-tabs-item" data-index="1">html</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script>
+require(['jquery', 'ui/lib', 'ui/Tabs'], function ($, lib, Tabs) {
+    lib.fixed($('.nav')[0], {
+        top: 0,
+        left: 0,
+        bottom: 0
+    });
+
+    var tabs = [{
+        title: 'js'
+    }, {
+        title: 'html'
+    }];
+
+    new Tabs({
+        main: document.getElementById('lang-nav'),
+        tabs: tabs
+    }).render().on('change', function (e) {
+        switchCode(tabs[e.activeIndex].title);
+    });
+
+    function switchCode(title) {
+        $('pre code').each(function () {
+            var code = $(this);
+            var pre = code.parent();
+            if (code.hasClass('lang-' + title)) {
+                pre.show();
+            }
+            else {
+                pre.hide();
+            }
+        });
+    }
+});
+</script>
+</body>
+</html>

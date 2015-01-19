@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>TextBox - Moye</title>
+<link rel="stylesheet" href="./css/common.css" />
+<script src="./js/esl.js"></script>
+<script src="./js/jquery-1.10.2.min.js"></script>
+<script>
+require.config({ 'baseUrl': '../asset' });
+</script>
+<link rel="stylesheet" href="../asset/css/TextBox.css">
+</head>
+<body>
+<div class="nav">
+    <a href="#" class="logo"><img src="./img/moye.png" alt=""></a>
+    <ul>
+        <li><a href="Button.html" class="">Button</a>
+        <li><a href="Calendar.html" class="">Calendar</a>
+        <li><a href="City.html" class="">City</a>
+        <li><a href="Dialog.html" class="">Dialog</a>
+        <li><a href="Pager.html" class="">Pager</a>
+        <li><a href="Slider.html" class="">Slider</a>
+        <li><a href="Select.html" class="">Select</a>
+        <li><a href="Tabs.html" class="">Tabs</a>
+        <li><a href="TextBox.html" class="active">TextBox</a>
+    </ul>
+</div>
+<div class="container">
+    <div id="main">
+<div class="markdown"><h1 id="textbox-">TextBox 文本输入框</h1>
+<pre><code class="lang-html">&lt;label&gt;我是&lt;/label&gt;
+&lt;<span class="keyword">div</span> <span class="property">id</span>=<span class="string">"textbox1"</span> <span class="type">class</span>=<span class="string">"ui-textbox"</span>&gt;
+    &lt;input type=<span class="string">"text"</span>&gt;
+&lt;/<span class="keyword">div</span>&gt;
+&lt;<span class="keyword">div</span> <span class="property">id</span>=<span class="string">"welcome"</span>&gt;&lt;/<span class="keyword">div</span>&gt;
+</code></pre>
+<pre><code class="lang-js"><span class="keyword">new</span> TextBox({
+    main: <span class="built_in">document</span>.getElementById(<span class="string">'textbox1'</span>)
+})
+.on(<span class="string">'input'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> </span>{
+    <span class="built_in">document</span>.getElementById(<span class="string">'console'</span>).innerText = <span class="string">'你好，'</span> + <span class="keyword">this</span>.getValue();
+})
+.render();
+</code></pre>
+<div class="content">
+    <label>我是</label>
+    <div id="textbox1" class="ui-textbox">
+        <input type="text">
+    </div>
+    <div id="welcome"></div>
+</div>
+
+<script>
+require(['ui/TextBox'], function (TextBox) {
+
+    new TextBox({
+        main: document.getElementById('textbox1')
+    })
+    .on('input', function () {
+        document.getElementById('welcome').innerText = '你好，' + this.getValue();
+    })
+    .render();
+
+});
+</script>
+
+<pre><code class="lang-js"><span class="tag">new</span> <span class="tag">TextBox</span>({
+    <span class="attribute">main</span>: document.<span class="function">getElementById</span>(<span class="string">'textbox2'</span>)
+})
+<span class="class">.render</span>()
+<span class="class">.disable</span>();
+
+<span class="tag">new</span> <span class="tag">TextBox</span>({
+    <span class="attribute">main</span>: document.<span class="function">getElementById</span>(<span class="string">'textbox3'</span>)
+})
+<span class="class">.render</span>()
+<span class="class">.setReadOnly</span>(true);
+</code></pre>
+<pre><code class="lang-html">&lt;<span class="keyword">div</span> <span class="property">id</span>=<span class="string">"textbox2"</span> <span class="type">class</span>=<span class="string">"ui-textbox ui-textbox-disabled"</span>&gt;
+    &lt;input type=<span class="string">"text"</span> value=<span class="string">"禁用"</span>&gt;
+&lt;/<span class="keyword">div</span>&gt;
+&lt;<span class="keyword">div</span> <span class="property">id</span>=<span class="string">"textbox3"</span> <span class="type">class</span>=<span class="string">"ui-textbox ui-textbox-readOnly"</span>&gt;
+    &lt;input type=<span class="string">"text"</span> value=<span class="string">"只读"</span>&gt;
+&lt;/<span class="keyword">div</span>&gt;
+&lt;<span class="keyword">div</span> <span class="property">id</span>=<span class="string">"textbox4"</span> <span class="type">class</span>=<span class="string">"ui-textbox ui-textbox-valid"</span>&gt;
+    &lt;input type=<span class="string">"text"</span> value=<span class="string">"通过校验"</span>&gt;
+&lt;/<span class="keyword">div</span>&gt;
+&lt;<span class="keyword">div</span> <span class="property">id</span>=<span class="string">"textbox4"</span> <span class="type">class</span>=<span class="string">"ui-textbox ui-textbox-invalid"</span>&gt;
+    &lt;input type=<span class="string">"text"</span> value=<span class="string">"未通过校验"</span>&gt;
+&lt;/<span class="keyword">div</span>&gt;
+</code></pre>
+<p><div class="content">
+    <div id="textbox2" class="ui-textbox ui-textbox-disabled">
+        <input type="text" value="禁用">
+    </div>
+    <div id="textbox3" class="ui-textbox ui-textbox-readOnly">
+        <input type="text" value="只读">
+    </div>
+    <div id="textbox4" class="ui-textbox ui-textbox-valid">
+        <input type="text" value="通过校验">
+    </div>
+    <div id="textbox4" class="ui-textbox ui-textbox-invalid">
+        <input type="text" value="未通过校验">
+    </div>
+</div></p>
+<script>
+require(['ui/TextBox'], function (TextBox) {
+    new TextBox({
+        main: document.getElementById('textbox2')
+    })
+    .render()
+    .disable();
+
+    new TextBox({
+        main: document.getElementById('textbox3')
+    })
+    .render()
+    .setReadOnly(true);
+
+});
+</script>
+</div>    </div>
+    <div id="dark-bg">
+        <div id="top-nav">
+            <ul id="lang-nav" class="ui-tabs" data-ctrl-context="default" data-ctrl-id="moye-8">
+                <li class="ui-tabs-item ui-tabs-item-first ui-tabs-active" data-index="0">js</li>
+                <li class="ui-tabs-item" data-index="1">html</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script>
+require(['jquery', 'ui/lib', 'ui/Tabs'], function ($, lib, Tabs) {
+    lib.fixed($('.nav')[0], {
+        top: 0,
+        left: 0,
+        bottom: 0
+    });
+
+    var tabs = [{
+        title: 'js'
+    }, {
+        title: 'html'
+    }];
+
+    new Tabs({
+        main: document.getElementById('lang-nav'),
+        tabs: tabs
+    }).render().on('change', function (e) {
+        switchCode(tabs[e.activeIndex].title);
+    });
+
+    function switchCode(title) {
+        $('pre code').each(function () {
+            var code = $(this);
+            var pre = code.parent();
+            if (code.hasClass('lang-' + title)) {
+                pre.show();
+            }
+            else {
+                pre.hide();
+            }
+        });
+    }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,2 @@
+/*! 2015 Baidu Inc. All Rights Reserved */
+define("ui/lib/browser",["require"],function(){var e=/(opera|ie|firefox|chrome|version)[\s\/:]([\w\d\.]+)?.*?(safari|version[\s\/:]([\w\d\.]+)|$)/,t=navigator.userAgent.toLowerCase().match(e)||[null,"unknown",0],n="ie"===t[1]&&document.documentMode,i={name:"version"===t[1]?t[3]:t[1],version:n||parseFloat("opera"===t[1]&&t[4]?t[4]:t[2])};return i[i.name]=0|i.version,i[i.name+(0|i.version)]=!0,{browser:i}});

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Lunar - Moye</title>
+<link rel="stylesheet" href="./css/common.css" />
+<script src="./js/esl.js"></script>
+<script src="./js/jquery-1.10.2.min.js"></script>
+<script>
+require.config({ 'baseUrl': '../asset' });
+</script>
+<link rel="stylesheet" href="../asset/css/Lunar.css" />
+</head>
+<body>
+<div class="nav">
+    <a href="#" class="logo"><img src="./img/moye.png" alt=""></a>
+    <ul>
+        <li><a href="Button.html" class="">Button</a>
+        <li><a href="Calendar.html" class="">Calendar</a>
+        <li><a href="City.html" class="">City</a>
+        <li><a href="Dialog.html" class="">Dialog</a>
+        <li><a href="Pager.html" class="">Pager</a>
+        <li><a href="Slider.html" class="">Slider</a>
+        <li><a href="Select.html" class="">Select</a>
+        <li><a href="Tabs.html" class="">Tabs</a>
+        <li><a href="TextBox.html" class="">TextBox</a>
+    </ul>
+</div>
+<div class="container">
+    <div id="main">
+<div class="markdown"><h1 id="lunar-">Lunar 农历日历</h1>
+<h3 id="demo">DEMO</h3>
+<hr>
+</div><div class="content">
+  <div class="ecl-ui-lunar c-clearfix" id="lunar"></div>
+</div>
+<div class="markdown"><h3 id="-">源码</h3>
+<hr>
+<pre><code class="lang-html">&lt;<span class="keyword">div</span> <span class="type">class</span>=<span class="string">"ecl-ui-lunar c-clearfix"</span> <span class="property">id</span>=<span class="string">"lunar"</span>&gt;&lt;/<span class="keyword">div</span>&gt;
+</code></pre>
+<pre><code class="lang-js"><span class="built_in">require</span>([<span class="string">'ui/Lunar'</span>], <span class="function"><span class="keyword">function</span> <span class="params">(Lunar)</span> </span>{
+
+  <span class="keyword">var</span> lunar = <span class="keyword">new</span> Lunar({
+    <span class="comment">// first: 1,</span>
+    <span class="comment">// lang: {</span>
+    <span class="comment">//   days: '一,二,三,四,五,六,日'</span>
+    <span class="comment">// },</span>
+    value: <span class="string">'2010-02-17'</span>,
+    main: <span class="built_in">document</span>.getElementById(<span class="string">'lunar'</span>),
+    process: <span class="function"><span class="keyword">function</span> <span class="params">(el, klass, value, inRange)</span> </span>{
+      <span class="keyword">if</span> (~value.indexOf(<span class="string">'02-14'</span>)) {
+        <span class="keyword">var</span> div = <span class="built_in">document</span>.createElement(<span class="string">'div'</span>);
+        div.innerHTML = <span class="string">'今天要买花'</span>;
+        el.appendChild(div);
+      }
+    }
+  }).render();
+
+});
+</code></pre>
+</div>    </div>
+    <div id="dark-bg">
+        <div id="top-nav">
+            <ul id="lang-nav" class="ui-tabs" data-ctrl-context="default" data-ctrl-id="moye-8">
+                <li class="ui-tabs-item ui-tabs-item-first ui-tabs-active" data-index="0">js</li>
+                <li class="ui-tabs-item" data-index="1">html</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script>
+require(['jquery', 'ui/lib', 'ui/Tabs'], function ($, lib, Tabs) {
+    lib.fixed($('.nav')[0], {
+        top: 0,
+        left: 0,
+        bottom: 0
+    });
+
+    var tabs = [{
+        title: 'js'
+    }, {
+        title: 'html'
+    }];
+
+    new Tabs({
+        main: document.getElementById('lang-nav'),
+        tabs: tabs
+    }).render().on('change', function (e) {
+        switchCode(tabs[e.activeIndex].title);
+    });
+
+    function switchCode(title) {
+        $('pre code').each(function () {
+            var code = $(this);
+            var pre = code.parent();
+            if (code.hasClass('lang-' + title)) {
+                pre.show();
+            }
+            else {
+                pre.hide();
+            }
+        });
+    }
+});
+</script>
+<script>
+require(['ui/Lunar'], function (Lunar) {
+
+  var lunar = new Lunar({
+    // first: 1,
+    // lang: {
+    //   days: '一,二,三,四,五,六,日'
+    // },
+    value: '2014-07-17',
+    main: document.getElementById('lunar'),
+    process: function (el, klass, value, inRange) {
+      if (~value.indexOf('02-14')) {
+        var div = document.createElement('div');
+        div.innerHTML = '今天要买花';
+        el.appendChild(div);
+      }
+    }
+  });
+
+  lunar.render();
+
+});
+</script></body>
+</html>

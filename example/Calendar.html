@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Calendar - Moye</title>
+<link rel="stylesheet" href="./css/common.css" />
+<script src="./js/esl.js"></script>
+<script src="./js/jquery-1.10.2.min.js"></script>
+<script>
+require.config({ 'baseUrl': '../asset' });
+</script>
+<link rel="stylesheet" href="../asset/css/Calendar.css">
+</head>
+<body>
+<div class="nav">
+    <a href="#" class="logo"><img src="./img/moye.png" alt=""></a>
+    <ul>
+        <li><a href="Button.html" class="">Button</a>
+        <li><a href="Calendar.html" class="active">Calendar</a>
+        <li><a href="City.html" class="">City</a>
+        <li><a href="Dialog.html" class="">Dialog</a>
+        <li><a href="Pager.html" class="">Pager</a>
+        <li><a href="Slider.html" class="">Slider</a>
+        <li><a href="Select.html" class="">Select</a>
+        <li><a href="Tabs.html" class="">Tabs</a>
+        <li><a href="TextBox.html" class="">TextBox</a>
+    </ul>
+</div>
+<div class="container">
+    <div id="main">
+<div class="markdown"><h2 id="-">日历</h2>
+<pre><code class="lang-js"><span class="built_in">require</span>([<span class="string">'ui/Calendar'</span>], <span class="function"><span class="keyword">function</span> <span class="params">(Calendar)</span> </span>{
+
+  <span class="keyword">new</span> Calendar({
+    main: <span class="built_in">document</span>.getElementById(<span class="string">'calendar1'</span>)
+  }).render();
+
+});
+</code></pre>
+<div class="content line">
+  预约时间：<input type="text" id="calendar1" value="2014-08-08"/>
+</div>
+
+
+<script>
+require(['ui/Calendar'], function (Calendar) {
+
+  new Calendar({
+    main: document.getElementById('calendar1')
+  }).render();
+
+});
+</script>
+
+<h2 id="-">显示多个月份供选择</h2>
+<pre><code class="lang-html">预约时间：&lt;input <span class="variable">type=</span><span class="string">"text"</span> <span class="variable">id=</span><span class="string">"calendar2"</span> <span class="variable">value=</span><span class="string">"2014-08-08"</span>/&gt;
+</code></pre>
+<pre><code class="lang-js"><span class="built_in">require</span>([<span class="string">'ui/Calendar'</span>], <span class="function"><span class="keyword">function</span> <span class="params">(Calendar)</span> </span>{
+
+  <span class="keyword">new</span> Calendar({
+    main: <span class="built_in">document</span>.getElementById(<span class="string">'calendar2'</span>),
+    months: <span class="number">3</span>
+  }).render();
+
+});
+</code></pre>
+<div class="content line">
+  预约时间：<input type="text" id="calendar2" value="2014-08-08"/>
+</div>
+
+<script>
+require(['ui/Calendar'], function (Calendar) {
+
+  new Calendar({
+    main: document.getElementById('calendar2'),
+    months: 3
+  }).render();
+
+});
+</script>
+
+
+<h2 id="-">可选范围</h2>
+<blockquote>
+<p>此处请注意, 如果设定的值不在可选的范围内, 值被会被清空.</p>
+</blockquote>
+<pre><code class="lang-html">&lt;<span class="keyword">div</span> <span class="type">class</span>=<span class="string">"content"</span>&gt;
+  预约时间：&lt;input type=<span class="string">"text"</span> <span class="property">id</span>=<span class="string">"calendar3"</span> value=<span class="string">"2014-08-08"</span>/&gt;
+&lt;/<span class="keyword">div</span>&gt;
+</code></pre>
+<pre><code class="lang-js"><span class="built_in">require</span>([<span class="string">'ui/Calendar'</span>], <span class="function"><span class="keyword">function</span> <span class="params">(Calendar)</span> </span>{
+
+  <span class="keyword">new</span> Calendar({
+    main: <span class="built_in">document</span>.getElementById(<span class="string">'calendar3'</span>),
+    months: <span class="number">2</span>,
+    range: {
+      begin: <span class="string">'2015-01-01'</span>,
+      end: <span class="keyword">new</span> <span class="built_in">Date</span>()
+    }
+  }).render();
+
+});
+</code></pre>
+<p>可以通过配置<code>Calendar</code>的<code>range</code>属性来设定日历的可选范围，或者可以通过<code>setRange</code>方法可动态设定。示例：</p>
+<div class="content line">
+  预约时间：<input type="text" id="calendar3" value="2014-08-08"/>
+</div>
+
+<script>
+require(['ui/Calendar'], function (Calendar) {
+
+  new Calendar({
+    main: document.getElementById('calendar3'),
+    months: 2,
+    range: {
+      begin: '2015-01-01',
+      end: new Date()
+    }
+  }).render();
+
+});
+</script>
+
+<h2 id="-">特殊日期</h2>
+<pre><code class="lang-html">价格日历：&lt;input <span class="variable">type=</span><span class="string">"text"</span> <span class="variable">value=</span><span class="string">"2014-10-01"</span> <span class="variable">id=</span><span class="string">"price-calendar"</span>&gt;
+</code></pre>
+<pre><code class="lang-js">require(['ui/Calendar'], function (Calendar) {
+
+  var <span class="operator"><span class="keyword">begin</span> = new <span class="built_in">Date</span>();</span>
+  var <span class="operator"><span class="keyword">end</span> = new <span class="built_in">Date</span>(<span class="keyword">begin</span>);</span>
+
+  <span class="operator"><span class="keyword">end</span>.setMonth(<span class="keyword">end</span>.getMonth() + <span class="number">3</span>);</span>
+
+  new Calendar({
+    main: document.getElementById('price-calendar'),
+    months: 3,
+    range: {
+      <span class="operator"><span class="keyword">begin</span>: <span class="keyword">begin</span>,
+      <span class="keyword">end</span>: <span class="keyword">end</span>
+    },
+    process: <span class="keyword">function</span> (<span class="keyword">data</span>) {
+      <span class="keyword">if</span> (<span class="keyword">data</span>.<span class="keyword">value</span> === <span class="string">'2015-02-19'</span>) {
+        <span class="keyword">data</span>.content = <span class="string">'春节'</span>;</span>
+      }
+      return data;
+    }
+  }).render();
+
+});
+</code></pre>
+<p>可以通过process参数来处理任意特殊日期的显示值或样式。可用于处理节日特殊样式等等情况, 示例:</p>
+<div class="content">
+  <div class="line">
+    价格日历：<input type="text" value="2015-02-18" id="price-calendar">
+  </div>
+</div>
+
+<style>
+  .spring {
+    background-color: #f00 !important;
+    color: #fff !important;
+  }
+</style>
+
+<script>
+require(['ui/Calendar'], function (Calendar) {
+
+  new Calendar({
+    main: document.getElementById('price-calendar'),
+    months: 3,
+    range: {
+      begin: '2015-01-01',
+      end: '2015-03-31'
+    },
+    process: function (data) {
+      if (data.value === '2015-02-19') {
+        data.content = '春节';
+        data.classList.push('spring');
+      }
+      return data;
+    }
+  }).render();
+
+});
+</script>
+</div>    </div>
+    <div id="dark-bg">
+        <div id="top-nav">
+            <ul id="lang-nav" class="ui-tabs" data-ctrl-context="default" data-ctrl-id="moye-8">
+                <li class="ui-tabs-item ui-tabs-item-first ui-tabs-active" data-index="0">js</li>
+                <li class="ui-tabs-item" data-index="1">html</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script>
+require(['jquery', 'ui/lib', 'ui/Tabs'], function ($, lib, Tabs) {
+    lib.fixed($('.nav')[0], {
+        top: 0,
+        left: 0,
+        bottom: 0
+    });
+
+    var tabs = [{
+        title: 'js'
+    }, {
+        title: 'html'
+    }];
+
+    new Tabs({
+        main: document.getElementById('lang-nav'),
+        tabs: tabs
+    }).render().on('change', function (e) {
+        switchCode(tabs[e.activeIndex].title);
+    });
+
+    function switchCode(title) {
+        $('pre code').each(function () {
+            var code = $(this);
+            var pre = code.parent();
+            if (code.hasClass('lang-' + title)) {
+                pre.show();
+            }
+            else {
+                pre.hide();
+            }
+        });
+    }
+});
+</script>
+</body>
+</html>

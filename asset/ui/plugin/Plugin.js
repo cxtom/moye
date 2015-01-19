@@ -1,0 +1,2 @@
+/*! 2015 Baidu Inc. All Rights Reserved */
+define("ui/plugin/Plugin",["require","jquery","../lib"],function(require){var t=(require("jquery"),require("../lib")),e=t.newClass({$class:"Plugin",initialize:function(e){t.extend(this,e)},activate:function(){this.active=!0},inactivate:function(){this.active=!1},isActivated:function(){return!!this.active},dispose:function(){}});return e});

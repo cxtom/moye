@@ -1,0 +1,2 @@
+/*! 2015 Baidu Inc. All Rights Reserved */
+define("ui/painter",["require"],function(){return{createRepaint:function(){var t=[].concat.apply([],[].slice.call(arguments));return function(e,n){for(var i=$.extend({},n),r=0;r<t.length;r++){var a=t[r];if("function"!=typeof a){var o=[].concat(a.name),s=!e;if(!s)for(var u=0;u<o.length;u++){var l=o[u];if(n.hasOwnProperty(l)){s=!0;break}}if(s){var c=[a];for(u=0;u<o.length;u++)l=o[u],c.push(this[l]),delete i[l];a.paint.apply(this,c)}else;}else a.apply(this,arguments)}return this}}}});
